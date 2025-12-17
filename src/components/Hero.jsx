@@ -115,7 +115,7 @@ const Hero = () => {
           <motion.div variants={itemVariants} className="flex items-center justify-center gap-4">
             {[
               { icon: Github, href: 'https://github.com/UjjavalParmar', label: 'GitHub' },
-              { icon: Linkedin, href: 'https://linkedin.com/in/ujjavalparmar', label: 'LinkedIn' },
+              { icon: Linkedin, href: 'https://www.linkedin.com/in/ujjaval-parmar-6055b7178/', label: 'LinkedIn' },
               { icon: Mail, href: 'mailto:ujjavalworkmail22@gmail.com', label: 'Email' },
               { icon: Phone, href: 'tel:+917573869598', label: 'Phone' },
             ].map(({ icon: Icon, href, label }) => (
