@@ -68,7 +68,7 @@ const Navbar = () => {
               </motion.a>
             ))}
             <motion.a
-              href="/resume.pdf"
+              href="https://docs.google.com/document/d/1tr2V0XPsnVvAlyg_PLxKM9fIT-34jmLq/edit?usp=sharing&ouid=108587002836749340351&rtpof=true&sd=true"
               target="_blank"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -119,7 +119,7 @@ const Navbar = () => {
                 </motion.a>
               ))}
               <motion.a
-                href="/resume.pdf"
+                href="https://docs.google.com/document/d/1tr2V0XPsnVvAlyg_PLxKM9fIT-34jmLq/edit?usp=sharing&ouid=108587002836749340351&rtpof=true&sd=true"
                 target="_blank"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}

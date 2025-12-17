@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { Mail, Phone, MapPin, Send, Github, Linkedin, ExternalLink, CheckCircle, Loader2 } from 'lucide-react'
+import { Mail, Phone, MapPin, Send, Github, Linkedin, ExternalLink, CheckCircle, Loader2, Copy, Check } from 'lucide-react'
 
 const Contact = () => {
   const [ref, inView] = useInView({
@@ -17,23 +17,60 @@ const Contact = () => {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [copiedItem, setCopiedItem] = useState(null)
 
   const handleChange = (e) => {
     setFormState({ ...formState, [e.target.name]: e.target.value })
   }
 
+  const handleCopy = async (text, label) => {
+    try {
+      await navigator.clipboard.writeText(text)
+      setCopiedItem(label)
+      setTimeout(() => setCopiedItem(null), 2000)
+    } catch (err) {
+      console.error('Failed to copy:', err)
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    
-    setIsSubmitting(false)
-    setIsSubmitted(true)
-    setFormState({ name: '', email: '', subject: '', message: '' })
-    
-    setTimeout(() => setIsSubmitted(false), 5000)
+
+    try {
+      // Send email using EmailJS
+      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          service_id: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+          template_id: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+          user_id: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+          template_params: {
+            from_name: formState.name,
+            from_email: formState.email,
+            subject: formState.subject,
+            message: formState.message,
+            to_email: 'ultron007007@gmail.com',
+          },
+        }),
+      })
+
+      if (response.ok) {
+        setIsSubmitted(true)
+        setFormState({ name: '', email: '', subject: '', message: '' })
+        setTimeout(() => setIsSubmitted(false), 5000)
+      } else {
+        throw new Error('Failed to send email')
+      }
+    } catch (error) {
+      console.error('Error sending email:', error)
+      alert('Failed to send message. Please try again or email directly.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const contactInfo = [
@@ -42,18 +79,21 @@ const Contact = () => {
       label: 'Email',
       value: 'ujjavalworkmail22@gmail.com',
       href: 'mailto:ujjavalworkmail22@gmail.com',
+      copyable: true,
     },
     {
       icon: Phone,
       label: 'Phone',
       value: '+91 7573869598',
       href: 'tel:+917573869598',
+      copyable: true,
     },
     {
       icon: MapPin,
       label: 'Location',
       value: 'Ahmedabad, Gujarat, India',
       href: '#',
+      copyable: false,
     },
   ]
 
@@ -67,7 +107,7 @@ const Contact = () => {
     {
       icon: Linkedin,
       label: 'LinkedIn',
-      href: 'https://linkedin.com/in/ujjavalparmar',
+      href: 'https://www.linkedin.com/in/ujjaval-parmar-6055b7178/',
       username: '/in/ujjavalparmar',
     },
   ]
@@ -108,23 +148,42 @@ const Contact = () => {
             {/* Contact Cards */}
             <div className="space-y-4">
               {contactInfo.map((item, index) => (
-                <motion.a
+                <motion.div
                   key={item.label}
-                  href={item.href}
                   initial={{ opacity: 0, y: 20 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
-                  whileHover={{ x: 10, scale: 1.02 }}
                   className="group flex items-center gap-4 p-4 rounded-xl bg-surface/50 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <item.icon className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-text-secondary">{item.label}</p>
-                    <p className="text-white font-medium">{item.value}</p>
-                  </div>
-                </motion.a>
+                  <motion.a
+                    href={item.href}
+                    whileHover={{ x: 10, scale: 1.02 }}
+                    className="flex items-center gap-4 flex-1"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <item.icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-text-secondary">{item.label}</p>
+                      <p className="text-white font-medium">{item.value}</p>
+                    </div>
+                  </motion.a>
+                  {item.copyable && (
+                    <motion.button
+                      onClick={() => handleCopy(item.value, item.label)}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="p-2 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors duration-200"
+                      title={`Copy ${item.label}`}
+                    >
+                      {copiedItem === item.label ? (
+                        <Check className="w-5 h-5 text-success" />
+                      ) : (
+                        <Copy className="w-5 h-5 text-primary" />
+                      )}
+                    </motion.button>
+                  )}
+                </motion.div>
               ))}
             </div>
 
