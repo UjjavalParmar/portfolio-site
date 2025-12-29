@@ -32,7 +32,7 @@ This portfolio website is built with:
   - HTML5
   - CSS3 (with Flexbox/Grid)
   - JavaScript (ES6+)
-  
+
 - **Tools & Frameworks:**
   - [List your primary frameworks/libraries here]
   - Git & GitHub
@@ -65,7 +65,7 @@ This portfolio website is built with:
    ```bash
    # If using a simple setup, open index.html in your browser
    open index.html
-   
+
    # Or if using a local server (Python):
    python -m http.server 8000
    # Then visit http://localhost:8000
@@ -79,46 +79,6 @@ This portfolio website is built with:
 
 ---
 
-## 🌐 Deployment
-
-This portfolio is deployed and accessible at: **[https://ujjavaldeploys.in/](https://ujjavaldeploys.in/)**
-
-### Deploying Your Own Version
-
-**Using GitHub Pages:**
-1. Push your changes to the `main` branch
-2. Go to repository Settings → Pages
-3. Select `main` branch as the source
-4. Your site will be live at `https://yourusername.github.io/portfolio-site`
-
-**Using Other Platforms:**
-- Netlify: Connect your GitHub repo for automatic deployments
-- Vercel: Similar one-click deployment process
-- Traditional Hosting: Upload files via FTP or SSH
-
----
-
-## 📧 Contact
-
-I'd love to hear from you! Feel free to reach out through:
-
-- **Email:** [your-email@example.com]
-- **LinkedIn:** [Your LinkedIn Profile]
-- **GitHub:** [https://github.com/UjjavalParmar](https://github.com/UjjavalParmar)
-- **Website:** [https://ujjavaldeploys.in/](https://ujjavaldeploys.in/)
-
-Or use the contact form directly on the website.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-You are free to use this portfolio template as a reference or starting point for your own portfolio website.
-
----
-
 ## 🤝 Contributing
 
 If you have suggestions or improvements for this portfolio template, feel free to:
@@ -129,16 +89,5 @@ If you have suggestions or improvements for this portfolio template, feel free t
 5. Open a Pull Request
 
 ---
-
-## 📝 Notes
-
-- Remember to update placeholder information (email, links, project details) with your actual information
-- Add screenshots of your projects in the projects section
-- Keep your portfolio updated with recent projects and skills
-- Test responsiveness on different devices regularly
-
----
-
-**Last Updated:** 2025-12-29
 
 *Built with ❤️ by Ujjaval Parmar*
