@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { Mail, Phone, MapPin, Send, Github, Linkedin, ExternalLink, CheckCircle, Loader2, Copy, Check } from 'lucide-react'
+import { Turnstile } from '@marsidev/react-turnstile'
 
 const Contact = () => {
   const [ref, inView] = useInView({
@@ -18,6 +19,8 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [copiedItem, setCopiedItem] = useState(null)
+  const [captchaToken, setCaptchaToken] = useState(null)
+  const turnstileRef = useRef(null)
 
   const handleChange = (e) => {
     setFormState({ ...formState, [e.target.name]: e.target.value })
@@ -35,6 +38,13 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    // Validate captcha token
+    if (!captchaToken) {
+      alert('Please complete the captcha verification.')
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
@@ -61,6 +71,8 @@ const Contact = () => {
       if (response.ok) {
         setIsSubmitted(true)
         setFormState({ name: '', email: '', subject: '', message: '' })
+        setCaptchaToken(null)
+        turnstileRef.current?.reset()
         setTimeout(() => setIsSubmitted(false), 5000)
       } else {
         throw new Error('Failed to send email')
@@ -68,6 +80,8 @@ const Contact = () => {
     } catch (error) {
       console.error('Error sending email:', error)
       alert('Failed to send message. Please try again or email directly.')
+      setCaptchaToken(null)
+      turnstileRef.current?.reset()
     } finally {
       setIsSubmitting(false)
     }
@@ -304,9 +318,21 @@ const Contact = () => {
                 />
               </div>
 
+              {/* Cloudflare Turnstile Captcha */}
+              <div className="flex justify-center">
+                <Turnstile
+                  ref={turnstileRef}
+                  siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                  onSuccess={(token) => setCaptchaToken(token)}
+                  onError={() => setCaptchaToken(null)}
+                  onExpire={() => setCaptchaToken(null)}
+                  theme="dark"
+                />
+              </div>
+
               <motion.button
                 type="submit"
-                disabled={isSubmitting || isSubmitted}
+                disabled={isSubmitting || isSubmitted || !captchaToken}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className={`w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-semibold text-white transition-all duration-300 ${
