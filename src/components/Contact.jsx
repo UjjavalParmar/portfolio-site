@@ -55,9 +55,9 @@ const Contact = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          service_id: import.meta.env.VITE_EMAILJS_SERVICE_ID,
-          template_id: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-          user_id: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+          service_id: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+          template_id: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+          user_id: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
           template_params: {
             from_name: formState.name,
             from_email: formState.email,
@@ -322,7 +322,7 @@ const Contact = () => {
               <div className="flex justify-center">
                 <Turnstile
                   ref={turnstileRef}
-                  siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                  siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
                   onSuccess={(token) => setCaptchaToken(token)}
                   onError={() => setCaptchaToken(null)}
                   onExpire={() => setCaptchaToken(null)}
