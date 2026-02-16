@@ -8,6 +8,12 @@ export const metadata = {
   title: 'Blog',
   description:
     'Insights on DevOps, cloud infrastructure, Kubernetes, CI/CD, and modern software engineering by Ujjaval Parmar.',
+  alternates: {
+    canonical: '/blog',
+    types: {
+      'application/rss+xml': '/blog/rss.xml',
+    },
+  },
   openGraph: {
     title: 'Blog | Ujjaval Parmar',
     description:
@@ -26,9 +32,38 @@ function formatDate(dateString) {
 
 export default async function BlogPage() {
   const posts = await getAllPosts()
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ujjavaldeploys.in'
+
+  const blogListJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: 'Ujjaval Parmar Blog',
+    url: `${siteUrl}/blog`,
+    description:
+      'Insights on DevOps, cloud infrastructure, Kubernetes, CI/CD, and modern software engineering.',
+    ...(posts?.length
+      ? {
+          blogPost: posts.map((post) => ({
+            '@type': 'BlogPosting',
+            headline: post.title,
+            url: `${siteUrl}/blog/${post.slug.current}`,
+            datePublished: post.publishedAt,
+            author: {
+              '@type': 'Person',
+              name: post.author,
+            },
+          })),
+        }
+      : {}),
+  }
 
   return (
     <div className="min-h-screen bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListJsonLd) }}
+      />
+
       {/* Header */}
       <header className="border-b border-border">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
