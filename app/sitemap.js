@@ -3,7 +3,17 @@ import { getAllPosts } from '../src/lib/sanity'
 export default async function sitemap() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ujjavaldeploys.in'
 
-  // Static pages
+  // Dynamic blog post pages
+  let posts = []
+  try {
+    posts = await getAllPosts()
+  } catch (error) {
+    // If Sanity is unreachable, still generate sitemap with static pages
+    console.warn('Could not fetch blog posts for sitemap:', error.message)
+  }
+
+  const latestPostDate = posts?.[0]?.publishedAt ? new Date(posts[0].publishedAt) : new Date()
+
   const staticPages = [
     {
       url: siteUrl,
@@ -13,26 +23,18 @@ export default async function sitemap() {
     },
     {
       url: `${siteUrl}/blog`,
-      lastModified: new Date(),
+      lastModified: latestPostDate,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
   ]
 
-  // Dynamic blog post pages
-  let blogPages = []
-  try {
-    const posts = await getAllPosts()
-    blogPages = (posts || []).map((post) => ({
-      url: `${siteUrl}/blog/${post.slug.current}`,
-      lastModified: new Date(post.publishedAt),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    }))
-  } catch (error) {
-    // If Sanity is unreachable, still generate sitemap with static pages
-    console.warn('Could not fetch blog posts for sitemap:', error.message)
-  }
+  const blogPages = (posts || []).map((post) => ({
+    url: `${siteUrl}/blog/${post.slug.current}`,
+    lastModified: new Date(post.publishedAt),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
 
   return [...staticPages, ...blogPages]
 }
