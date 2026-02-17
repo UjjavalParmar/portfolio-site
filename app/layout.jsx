@@ -55,18 +55,26 @@ export const metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/favicon.ico', sizes: '16x16 32x32 48x48' },
       { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.png', type: 'image/png', sizes: '192x192' },
+      { url: '/icon-16x16.png', type: 'image/png', sizes: '16x16' },
+      { url: '/icon-32x32.png', type: 'image/png', sizes: '32x32' },
+      { url: '/icon-192x192.png', type: 'image/png', sizes: '192x192' },
+      { url: '/icon-512x512.png', type: 'image/png', sizes: '512x512' },
     ],
-    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+    apple: [
+      { url: '/icon-152x152.png', sizes: '152x152' },
+      { url: '/icon-167x167.png', sizes: '167x167' },
+      { url: '/apple-touch-icon.png', sizes: '180x180' },
+    ],
   },
+  manifest: '/site.webmanifest',
 }
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.variable}>
-<body className={inter.className}>{children}</body>
+      <body className={inter.className}>{children}</body>
     </html>
   )
 }
