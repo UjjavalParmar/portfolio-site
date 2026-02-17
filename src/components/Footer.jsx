@@ -35,7 +35,7 @@ const Footer = () => {
                 <Terminal className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-bold text-white">
-                Ujjaval<span className="text-primary">.</span>
+                Ujjaval
               </span>
             </a>
             <p className="text-text-secondary text-sm leading-relaxed">
