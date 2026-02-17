@@ -53,15 +53,20 @@ export const metadata = {
       'max-snippet': -1,
     },
   },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.png', type: 'image/png', sizes: '192x192' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+  },
 }
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.variable}>
-      <head>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-      </head>
-      <body className={inter.className}>{children}</body>
+<body className={inter.className}>{children}</body>
     </html>
   )
 }
