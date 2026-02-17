@@ -71,7 +71,7 @@ export default async function BlogPage() {
             href="/"
             className="text-xl font-bold text-white hover:text-primary transition-colors"
           >
-            Ujjaval<span className="text-primary">.</span>
+            Ujjaval
           </Link>
           <nav className="flex items-center gap-6">
             <Link
