@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  
+  <!-- Decorative code brackets (top-left) -->
+  <g opacity="0.15">
+    <path d="M80 80L30 130L80 180" fill="none" stroke="url(#accent)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M140 80L190 130L140 180" fill="none" stroke="url(#accent)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M125 70L95 190" fill="none" stroke="url(#accent)" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Decorative code brackets (bottom-right) -->
+  <g opacity="0.15">
+    <path d="M1020 450L970 500L1020 550" fill="none" stroke="url(#accent)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M1080 450L1130 500L1080 550" fill="none" stroke="url(#accent)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M1065 440L1035 560" fill="none" stroke="url(#accent)" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <!-- Main Content -->
+  <text x="600" y="240" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="bold">
+    Ujjaval Parmar
+  </text>
+  
+  <!-- Gradient line -->
+  <rect x="400" y="270" width="400" height="4" rx="2" fill="url(#accent)"/>
+  
+  <text x="600" y="340" text-anchor="middle" fill="#9ca3af" font-family="system-ui, -apple-system, sans-serif" font-size="36">
+    DevOps Engineer
+  </text>
+  
+  <!-- Skills tags -->
+  <g font-family="system-ui, -apple-system, sans-serif" font-size="20">
+    <rect x="280" y="400" width="100" height="36" rx="18" fill="#22d3ee" fill-opacity="0.15"/>
+    <text x="330" y="425" text-anchor="middle" fill="#22d3ee">AWS</text>
+    
+    <rect x="400" y="400" width="140" height="36" rx="18" fill="#22d3ee" fill-opacity="0.15"/>
+    <text x="470" y="425" text-anchor="middle" fill="#22d3ee">Kubernetes</text>
+    
+    <rect x="560" y="400" width="100" height="36" rx="18" fill="#22d3ee" fill-opacity="0.15"/>
+    <text x="610" y="425" text-anchor="middle" fill="#22d3ee">CI/CD</text>
+    
+    <rect x="680" y="400" width="120" height="36" rx="18" fill="#22d3ee" fill-opacity="0.15"/>
+    <text x="740" y="425" text-anchor="middle" fill="#22d3ee">Terraform</text>
+    
+    <rect x="820" y="400" width="100" height="36" rx="18" fill="#22d3ee" fill-opacity="0.15"/>
+    <text x="870" y="425" text-anchor="middle" fill="#22d3ee">Docker</text>
+  </g>
+  
+  <!-- Website URL -->
+  <text x="600" y="560" text-anchor="middle" fill="#6b7280" font-family="system-ui, -apple-system, sans-serif" font-size="24">
+    ujjavaldeploys.in
+  </text>
+</svg>

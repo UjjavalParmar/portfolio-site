@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getPostBySlug, getAllPostSlugs, sanityImageUrl } from '../../../src/lib/sanity'
 import PortableTextRenderer from '../../../src/components/PortableTextRenderer'
+import Navbar from '../../../src/components/Navbar'
 
 // ─── ISR: revalidate every 60 seconds ────────────────────────────────────────
 export const revalidate = 60
@@ -135,33 +136,10 @@ export default async function BlogPostPage({ params }) {
       />
 
       <div className="min-h-screen bg-background">
-        {/* Minimal Header */}
-        <header className="border-b border-border">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
-            <Link
-              href="/"
-              className="text-xl font-bold text-white hover:text-primary transition-colors"
-            >
-              Ujjaval
-            </Link>
-            <nav className="flex items-center gap-6">
-              <Link
-                href="/"
-                className="text-sm text-text-secondary hover:text-white transition-colors"
-              >
-                Home
-              </Link>
-              <Link
-                href="/blog"
-                className="text-sm text-text-secondary hover:text-white transition-colors"
-              >
-                Blog
-              </Link>
-            </nav>
-          </div>
-        </header>
+        {/* Shared Navbar */}
+        <Navbar isHomePage={false} />
 
-        <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
           {/* Back link */}
           <Link
             href="/blog"
