@@ -35,12 +35,21 @@ export const metadata = {
     title: 'Ujjaval Parmar | DevOps Engineer',
     description:
       'Associate DevOps Engineer specializing in cloud infrastructure, Kubernetes, and CI/CD automation.',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Ujjaval Parmar - DevOps Engineer',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Ujjaval Parmar | DevOps Engineer',
     description:
       'Associate DevOps Engineer specializing in cloud infrastructure, Kubernetes, and CI/CD automation.',
+    images: ['/og-image.png'],
   },
   robots: {
     index: true,

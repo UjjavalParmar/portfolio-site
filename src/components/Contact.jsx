@@ -213,13 +213,18 @@ const Contact = () => {
                     rel="noopener noreferrer"
                     whileHover={{ y: -5, scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="group flex items-center gap-3 px-4 py-3 rounded-xl bg-surface/50 border border-border hover:border-primary/50 transition-all duration-300"
+                    className="group flex items-center gap-3 px-5 py-4 rounded-xl bg-gradient-to-br from-surface to-surface/80 border border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300"
                   >
-                    <social.icon className="w-5 h-5 text-text-secondary group-hover:text-primary transition-colors" />
-                    <span className="text-sm text-text-secondary group-hover:text-white transition-colors">
-                      {social.username}
-                    </span>
-                    <ExternalLink className="w-4 h-4 text-text-secondary opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center group-hover:from-primary/30 group-hover:to-secondary/30 transition-all duration-300">
+                      <social.icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-text-secondary">{social.label}</span>
+                      <span className="text-sm font-medium text-white group-hover:text-primary transition-colors">
+                        {social.username}
+                      </span>
+                    </div>
+                    <ExternalLink className="w-4 h-4 text-primary/50 group-hover:text-primary transition-colors ml-auto" />
                   </motion.a>
                 ))}
               </div>
@@ -266,7 +271,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 rounded-xl bg-surface/50 border border-border text-white placeholder-text-secondary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-300"
-                    placeholder="John Doe"
+                    placeholder="Enter your name"
                   />
                 </div>
                 <div>
@@ -281,7 +286,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 rounded-xl bg-surface/50 border border-border text-white placeholder-text-secondary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-300"
-                    placeholder="john@example.com"
+                    placeholder="Enter your email"
                   />
                 </div>
               </div>
@@ -298,7 +303,7 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 rounded-xl bg-surface/50 border border-border text-white placeholder-text-secondary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-300"
-                  placeholder="Project Inquiry"
+                  placeholder="What is this about?"
                 />
               </div>
 
@@ -314,7 +319,7 @@ const Contact = () => {
                   required
                   rows={5}
                   className="w-full px-4 py-3 rounded-xl bg-surface/50 border border-border text-white placeholder-text-secondary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-300 resize-none"
-                  placeholder="Tell me about your project or opportunity..."
+                  placeholder="Write your message here..."
                 />
               </div>
 

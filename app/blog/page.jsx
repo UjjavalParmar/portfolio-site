@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { getAllPosts, sanityImageUrl } from '../../src/lib/sanity'
+import Navbar from '../../src/components/Navbar'
 
 export const revalidate = 3600 // ISR: revalidate every hour
 
@@ -64,28 +65,10 @@ export default async function BlogPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListJsonLd) }}
       />
 
-      {/* Header */}
-      <header className="border-b border-border">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
-          <Link
-            href="/"
-            className="text-xl font-bold text-white hover:text-primary transition-colors"
-          >
-            Ujjaval
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link
-              href="/"
-              className="text-sm text-text-secondary hover:text-white transition-colors"
-            >
-              Home
-            </Link>
-            <span className="text-sm font-medium text-white">Blog</span>
-          </nav>
-        </div>
-      </header>
+      {/* Shared Navbar */}
+      <Navbar isHomePage={false} />
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
         {/* Page Title */}
         <div className="text-center mb-16">
           <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
