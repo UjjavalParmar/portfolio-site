@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Terminal, Heart, ArrowUp, Github, Linkedin, Mail } from 'lucide-react'
