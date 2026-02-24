@@ -63,6 +63,6 @@ NEXT_PUBLIC_SANITY_DATASET=production
 
 ---
 
-**Built with coffee, Kubernetes knowledge, and zero downtime deployments.**
+**Built with chai, Kubernetes knowledge, and zero downtime deployments.**
 
 *— Ujjaval Parmar | DevOps Engineer*
