@@ -15,7 +15,7 @@ export default function NotFound() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent/10 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '4s' }} />
       </div>
 
-      <Navbar isHomePage={false} />
+      <Navbar />
 
       <div className="relative z-10 flex items-center justify-center min-h-screen">
         <motion.div
