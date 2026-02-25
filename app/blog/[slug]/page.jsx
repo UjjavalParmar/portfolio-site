@@ -142,8 +142,8 @@ export default async function BlogPostPage({ params }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Shared Navbar */}
-      <Navbar isHomePage={false} />
+      {/* Navbar */}
+      <Navbar />
 
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16">
         <BlogArticleWrapper>
