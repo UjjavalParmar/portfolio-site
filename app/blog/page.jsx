@@ -47,7 +47,7 @@ function estimateReadingTime(description) {
 
 export default async function BlogPage() {
   const posts = await getAllPosts()
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://devopslife.space'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.devopslife.space'
 
   const blogListJsonLd = {
     '@context': 'https://schema.org',

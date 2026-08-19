@@ -1,4 +1,5 @@
 import { Inter } from 'next/font/google'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import '../src/index.css'
 
 const inter = Inter({
@@ -8,7 +9,7 @@ const inter = Inter({
 })
 
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://devopslife.space'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.devopslife.space'),
   title: {
     default: 'Ujjaval Parmar | DevOps Engineer',
     template: '%s | Ujjaval Parmar',
@@ -83,7 +84,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+        <SpeedInsights />
+      </body>
     </html>
   )
 }
