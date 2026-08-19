@@ -1,5 +1,5 @@
 export default function robots() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://devopslife.space'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.devopslife.space'
 
   return {
     rules: [

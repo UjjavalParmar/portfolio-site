@@ -2,7 +2,7 @@
 
 > Because even DevOps engineers need a place to `kubectl describe` themselves.
 
-**Live:** [devopslife.space](https://devopslife.space)
+**Live:** [devopslife.space](https://www.devopslife.space)
 
 ---
 
@@ -21,6 +21,7 @@ spec:
   animations: Framer Motion
   cms: Sanity
   deployment: Vercel
+  monitoring: Vercel Speed Insights
   uptime: 99.9% (hopefully)
 ```
 
@@ -57,6 +58,7 @@ npm run build
 
 ```bash
 # Create .env.local
+NEXT_PUBLIC_SITE_URL=https://www.devopslife.space
 NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
 NEXT_PUBLIC_SANITY_DATASET=production
 ```
