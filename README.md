@@ -2,7 +2,7 @@
 
 > Because even DevOps engineers need a place to `kubectl describe` themselves.
 
-**Live:** [devopslife.space/](https://devopslife.space/)
+**Live:** [devopslife.space](https://devopslife.space)
 
 ---
 
