@@ -10,7 +10,7 @@ function escapeXml(unsafe = '') {
 }
 
 export async function GET() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ujjavaldeploys.in'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://devopslife.space'
   const posts = await getAllPosts()
 
   const itemsXml = (posts || [])
