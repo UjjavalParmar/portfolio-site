@@ -32,7 +32,7 @@ export async function generateMetadata({ params }) {
     return { title: 'Post Not Found' }
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ujjavaldeploys.in'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://devopslife.space'
   const imageUrl = sanityImageUrl(post.featuredImage)
   const canonicalUrl = `${siteUrl}/blog/${post.slug.current}`
 
@@ -98,7 +98,7 @@ export default async function BlogPostPage({ params }) {
     notFound()
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ujjavaldeploys.in'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://devopslife.space'
   const imageUrl = sanityImageUrl(post.featuredImage)
   const readingTime = estimateReadingTime(post.content)
 

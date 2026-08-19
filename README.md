@@ -2,7 +2,7 @@
 
 > Because even DevOps engineers need a place to `kubectl describe` themselves.
 
-**Live:** [ujjavaldeploys.in](https://ujjavaldeploys.in)
+**Live:** [devopslife.space](https://devopslife.space)
 
 ---
 

@@ -8,7 +8,7 @@ const inter = Inter({
 })
 
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://ujjavaldeploys.in'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://devopslife.space'),
   title: {
     default: 'Ujjaval Parmar | DevOps Engineer',
     template: '%s | Ujjaval Parmar',
