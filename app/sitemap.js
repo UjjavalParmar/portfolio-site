@@ -1,7 +1,7 @@
 import { getAllPosts } from '../src/lib/sanity'
 
 export default async function sitemap() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://devopslife.space'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.devopslife.space'
 
   // Dynamic blog post pages
   let posts = []
