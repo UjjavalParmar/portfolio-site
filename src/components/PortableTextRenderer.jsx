@@ -35,27 +35,27 @@ function highlightCode(code, language) {
 
       // Decorators
       if (token.startsWith('@')) {
-        parts.push(<span key={key} className="text-[#f9e2af]">{token}</span>)
+        parts.push(<span key={key} style={{ color: 'var(--code-dec)' }}>{token}</span>)
       }
       // f-strings
       else if (token.startsWith('f"') || token.startsWith("f'")) {
-        parts.push(<span key={key} className="text-[#a6e3a1]">{token}</span>)
+        parts.push(<span key={key} style={{ color: 'var(--code-str)' }}>{token}</span>)
       }
       // Strings
       else if (token.startsWith('"') || token.startsWith("'")) {
-        parts.push(<span key={key} className="text-[#a6e3a1]">{token}</span>)
+        parts.push(<span key={key} style={{ color: 'var(--code-str)' }}>{token}</span>)
       }
       // Keywords
       else if (keywords.includes(token)) {
-        parts.push(<span key={key} className="text-[#cba6f7]">{token}</span>)
+        parts.push(<span key={key} style={{ color: 'var(--code-kw)' }}>{token}</span>)
       }
       // Builtins / known types
       else if (builtins.includes(token)) {
-        parts.push(<span key={key} className="text-[#89b4fa]">{token}</span>)
+        parts.push(<span key={key} style={{ color: 'var(--code-type)' }}>{token}</span>)
       }
       // Function calls (word followed by paren in original)
       else if (/^\w+$/.test(token) && remaining.charAt(match.index + token.length) === '(') {
-        parts.push(<span key={key} className="text-[#89dceb]">{token}</span>)
+        parts.push(<span key={key} style={{ color: 'var(--code-fn)' }}>{token}</span>)
       }
       else {
         parts.push(<span key={key}>{token}</span>)
@@ -63,7 +63,7 @@ function highlightCode(code, language) {
     }
 
     if (comment) {
-      parts.push(<span key={`${lineIdx}-comment`} className="text-[#6c7086] italic">{comment}</span>)
+      parts.push(<span key={`${lineIdx}-comment`} style={{ color: 'var(--code-cmt)', fontStyle: 'italic' }}>{comment}</span>)
     }
 
     return (
@@ -82,18 +82,25 @@ const components = {
       if (!url) return null
 
       return (
-        <figure className="my-8">
-          <div className="relative aspect-video rounded-xl overflow-hidden">
+        <figure>
+          <div
+            style={{
+              position: 'relative',
+              aspectRatio: '16 / 9',
+              border: '1px solid var(--line)',
+              overflow: 'hidden',
+            }}
+          >
             <Image
               src={url}
-              alt={value.alt || 'Blog image'}
+              alt={value.alt || ''}
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 768px"
             />
           </div>
           {value.caption && (
-            <figcaption className="text-center text-sm text-text-secondary mt-3">
+            <figcaption className="caption" style={{ marginTop: '10px' }}>
               {value.caption}
             </figcaption>
           )}
@@ -101,23 +108,39 @@ const components = {
       )
     },
     code: ({ value }) => (
-      <div className="my-6">
+      <div style={{ margin: '32px 0' }}>
         {value.filename && (
-          <div className="bg-[#1e1e2e] rounded-t-lg px-4 py-2 text-xs text-gray-400 font-mono border border-[#313244] border-b-0 flex items-center gap-2">
-            <span className="text-primary">{value.filename}</span>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              background: 'var(--code-bg)',
+              border: '1px solid var(--line)',
+              borderBottom: 'none',
+              padding: '10px 16px',
+              font: '400 11px/1 var(--font-mono), monospace',
+              letterSpacing: '.14em',
+              color: 'var(--fg3)',
+            }}
+          >
+            <span style={{ color: 'var(--accent)' }}>{value.filename}</span>
             {value.language && (
-              <span className="ml-auto text-gray-500 uppercase text-[10px] tracking-wider">{value.language}</span>
+              <span style={{ marginLeft: 'auto', textTransform: 'uppercase' }}>
+                {value.language}
+              </span>
             )}
           </div>
         )}
-        <pre
-          className={`bg-[#1e1e2e] border border-[#313244] ${
-            value.filename ? 'rounded-b-lg' : 'rounded-lg'
-          } p-4 overflow-x-auto`}
-        >
-          <code className="text-sm font-mono text-[#cdd6f4] leading-relaxed">{
-            highlightCode(value.code, value.language)
-          }</code>
+        <pre style={{ margin: 0 }}>
+          <code
+            style={{
+              font: '400 13px/1.7 var(--font-mono), monospace',
+              color: 'var(--code-fg)',
+            }}
+          >
+            {highlightCode(value.code, value.language)}
+          </code>
         </pre>
       </div>
     ),
@@ -133,25 +156,57 @@ const components = {
       )
     },
     code: ({ children }) => (
-      <code className="text-primary bg-surface px-1.5 py-0.5 rounded text-sm">{children}</code>
+      <code
+        style={{
+          background: 'var(--panel)',
+          border: '1px solid var(--line)',
+          color: 'var(--fg)',
+          padding: '2px 6px',
+          fontSize: '.9em',
+        }}
+      >
+        {children}
+      </code>
     ),
   },
   block: {
     h2: ({ children }) => (
-      <h2 className="text-2xl sm:text-3xl font-bold text-white mt-12 mb-4">{children}</h2>
+      <h2
+        className="h2 h2--sm"
+        style={{
+          color: 'var(--fg)',
+          margin: '48px 0 16px',
+          paddingBottom: '12px',
+          borderBottom: '1px solid var(--line)',
+        }}
+      >
+        {children}
+      </h2>
     ),
     h3: ({ children }) => (
-      <h3 className="text-xl sm:text-2xl font-bold text-white mt-10 mb-3">{children}</h3>
+      <h3 className="h3-card" style={{ color: 'var(--fg)', margin: '36px 0 12px' }}>
+        {children}
+      </h3>
     ),
     h4: ({ children }) => (
-      <h4 className="text-lg sm:text-xl font-semibold text-white mt-8 mb-2">{children}</h4>
+      <h4 className="h3-step" style={{ color: 'var(--fg)', margin: '28px 0 10px' }}>
+        {children}
+      </h4>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-primary pl-4 my-6 italic text-text-secondary">
+      <blockquote
+        style={{
+          borderLeft: '2px solid var(--accent)',
+          background: 'var(--panel)',
+          padding: '20px 24px',
+          margin: '32px 0',
+          color: 'var(--fg)',
+        }}
+      >
         {children}
       </blockquote>
     ),
-    normal: ({ children }) => <p className="mb-4 leading-relaxed">{children}</p>,
+    normal: ({ children }) => <p style={{ margin: '0 0 20px' }}>{children}</p>,
   },
 }
 
