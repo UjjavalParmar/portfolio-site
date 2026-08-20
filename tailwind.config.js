@@ -1,44 +1,42 @@
-/** @type {import('tailwindcss').Config} */
+/**
+ * Tailwind is kept for layout utilities only. Every design decision — colour,
+ * type, spacing, borders — lives in the token layer in src/index.css, and this
+ * config just points Tailwind at the same custom properties so a utility can
+ * never drift from a token.
+ *
+ * @type {import('tailwindcss').Config}
+ */
 export default {
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./app/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ['./src/**/*.{js,ts,jsx,tsx}', './app/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
-        primary: '#9E7FFF',
-        secondary: '#38bdf8',
-        accent: '#f472b6',
-        background: '#171717',
-        surface: '#262626',
-        'surface-light': '#2F2F2F',
-        text: '#FFFFFF',
-        'text-secondary': '#A3A3A3',
-        border: '#2F2F2F',
-        success: '#10b981',
-        warning: '#f59e0b',
-        error: '#ef4444',
+        bg: 'var(--bg)',
+        panel: 'var(--panel)',
+        line: 'var(--line)',
+        line2: 'var(--line2)',
+        fg: 'var(--fg)',
+        fg2: 'var(--fg2)',
+        fg3: 'var(--fg3)',
+        accent: 'var(--accent)',
+        'accent-fg': 'var(--accent-fg)',
+        ok: 'var(--ok)',
+        bad: 'var(--bad)',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'sans-serif'],
+        sans: ['var(--font-sans)', 'Helvetica', 'Arial', 'sans-serif'],
+        mono: ['var(--font-mono)', 'monospace'],
       },
-      animation: {
-        'float': 'float 6s ease-in-out infinite',
-        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'gradient': 'gradient 8s ease infinite',
+      borderRadius: {
+        none: '0',
       },
-      keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
-        },
-        gradient: {
-          '0%, 100%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
-        },
+      screens: {
+        // The design's two breakpoints, as max-width variants.
+        'lap-down': { max: '1080px' },
+        'mob-down': { max: '760px' },
       },
     },
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [],
 }
