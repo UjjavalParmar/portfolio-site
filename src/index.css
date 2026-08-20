@@ -2,6 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ═══════════════════════════════════════════════════════════════
+   Design tokens — dark is the default, light overrides on [data-theme].
+   Values are exact from the design handoff. Do not round.
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  --bg: #0F1113;
+  --panel: #15181B;
+  --line: #23262A;
+  --line2: #1C1F22;
+  --fg: #EDEEEF;
+  --fg2: #B4B8BD;
+  --fg3: #8D9298;
+  --accent: #E9A23B;
+  --accent-fg: #0F1113;
+  --ok: #5BBE7E;
+  --bad: #E07A5F;
+
+  /* Code surface — its own palette so snippets stay legible in both themes. */
+  --code-bg: #15181B;
+  --code-fg: #C9CDD2;
+  --code-kw: #C9A0DC;
+  --code-str: #8FCFA1;
+  --code-fn: #7FBBE0;
+  --code-type: #7FA7FF;
+  --code-dec: #E9C46A;
+  --code-cmt: #7D848C;
+
+  /* layout constants */
+  --shell: 1280px;
+  --pad: 44px;
+  --section-gap: 80px;
+
+  color-scheme: dark;
+}
+
+[data-theme='light'] {
+  --bg: #FFFFFF;
+  --panel: #F6F8FA;
+  --line: #E1E5EA;
+  --line2: #EDF0F3;
+  --fg: #101B2B;
+  --fg2: #4A5361;
+  --fg3: #6B7280;
+  --accent: #12457F;
+  --accent-fg: #FFFFFF;
+  --ok: #1B7F4E;
+  --bad: #B4522E;
+
+  --code-bg: #F6F8FA;
+  --code-fg: #1F2933;
+  --code-kw: #6F42C1;
+  --code-str: #0A6E4A;
+  --code-fn: #0550AE;
+  --code-type: #0F4C81;
+  --code-dec: #8A5A00;
+  --code-cmt: #5A636E;
+
+  color-scheme: light;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Base
+   ═══════════════════════════════════════════════════════════════ */
 * {
   margin: 0;
   padding: 0;
@@ -10,43 +73,482 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--bg);
 }
 
 body {
-  font-family: var(--font-inter), system-ui, sans-serif;
-  background-color: #171717;
-  color: #FFFFFF;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans), Helvetica, Arial, sans-serif;
   overflow-x: hidden;
+  transition: background 0.25s, color 0.25s;
 }
 
-::-webkit-scrollbar {
-  width: 8px;
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-::-webkit-scrollbar-track {
-  background: #171717;
+button {
+  font: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #9E7FFF;
-  border-radius: 4px;
+/* The design specifies zero radius everywhere. Status dots opt back in. */
+img,
+figure {
+  max-width: 100%;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #b49aff;
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 ::selection {
-  background: rgba(158, 127, 255, 0.3);
-  color: #FFFFFF;
+  background: var(--accent);
+  color: var(--accent-fg);
 }
 
-@layer utilities {
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent;
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fg3);
+}
+
+/* The only motion in this design is the theme cross-fade. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-  
-  .bg-gradient-radial {
-    background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
+  body,
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Visually hidden but reachable by screen readers. */
+.sr-only-focusable {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+}
+.sr-only-focusable:focus {
+  left: 0;
+  background: var(--accent);
+  color: var(--accent-fg);
+  font: 600 14px/1 var(--font-sans), sans-serif;
+  padding: 12px 18px;
+}
+
+@layer components {
+  /* ═════════════════════════════════════════════════════════════
+     Layout primitives
+     ═════════════════════════════════════════════════════════════ */
+  .shell {
+    max-width: var(--shell);
+    margin-inline: auto;
+    padding-inline: var(--pad);
+  }
+
+  .section {
+    padding-top: var(--section-gap);
+  }
+
+  /* 1px gap over a line-coloured background is what draws the interior
+     rules. Children paint their own background so the gap shows through. */
+  .rule-grid {
+    display: grid;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .rule-grid > * {
+    background: var(--bg);
+  }
+  .rule-grid--panel > * {
+    background: var(--panel);
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Hero: copy left, pipeline panel right. Collapses at the first
+     breakpoint. */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 424px);
+    gap: 60px;
+    align-items: start;
+    padding-top: 84px;
+  }
+
+  /* Metrics: rules drawn per-cell so cell 1 can sit flush with the content
+     edge. Not the gap trick — this grid has no left or right border. */
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .metric-grid > * {
+    padding: 28px;
+  }
+  .metric-grid > *:first-child {
+    padding-left: 0;
+  }
+  .metric-grid > *:not(:last-child) {
+    border-right: 1px solid var(--line);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 48px;
+    align-items: end;
+    border-top: 1px solid var(--line);
+    padding-top: 60px;
+  }
+
+  /* ═════════════════════════════════════════════════════════════
+     Typography
+     ═════════════════════════════════════════════════════════════ */
+  .eyebrow {
+    font: 400 12px/1 var(--font-mono), monospace;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+  }
+
+  .h1 {
+    font: 700 66px/1.04 var(--font-display), sans-serif;
+    letter-spacing: -0.035em;
+  }
+  .h1 em {
+    color: var(--fg3);
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  .h2 {
+    font: 700 40px/1.1 var(--font-display), sans-serif;
+    letter-spacing: -0.03em;
+  }
+  .h2--sm {
+    font-size: 32px;
+    line-height: 1.15;
+  }
+  .h2--lg {
+    font-size: 46px;
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+  }
+
+  .h3-card {
+    font: 700 24px/1.22 var(--font-display), sans-serif;
+    letter-spacing: -0.025em;
+  }
+  .h3-step {
+    font: 700 20px/1.25 var(--font-display), sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  .metric-num {
+    font: 700 40px/1 var(--font-display), sans-serif;
+    letter-spacing: -0.03em;
+  }
+
+  .lead {
+    font: 400 18px/1.65 var(--font-sans), sans-serif;
+    color: var(--fg2);
+    text-wrap: pretty;
+  }
+  .body-contact {
+    font: 400 17px/1.6 var(--font-sans), sans-serif;
+    color: var(--fg2);
+  }
+  .body-intro {
+    font: 400 16px/1.6 var(--font-sans), sans-serif;
+    color: var(--fg2);
+  }
+  .body-card {
+    font: 400 15px/1.6 var(--font-sans), sans-serif;
+    color: var(--fg2);
+  }
+  .body-step {
+    font: 400 14px/1.6 var(--font-sans), sans-serif;
+    color: var(--fg2);
+  }
+  .caption {
+    font: 400 13px/1.45 var(--font-sans), sans-serif;
+    color: var(--fg3);
+  }
+
+  /* Mono roles */
+  .meta {
+    font: 400 11px/1 var(--font-mono), monospace;
+    letter-spacing: 0.14em;
+    color: var(--fg3);
+  }
+  .meta--strong {
+    font-weight: 500;
+  }
+  .mono-13 {
+    font: 400 13px/1 var(--font-mono), monospace;
+    color: var(--fg3);
+  }
+  .footer-mono {
+    font: 400 11px/1.5 var(--font-mono), monospace;
+    color: var(--fg3);
+  }
+
+  /* ═════════════════════════════════════════════════════════════
+     Controls
+     ═════════════════════════════════════════════════════════════ */
+  .btn {
+    display: inline-block;
+    font: 600 15px/1 var(--font-sans), sans-serif;
+    padding: 16px 26px;
+  }
+  .btn--primary {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+  .btn--ghost {
+    border: 1px solid var(--line);
+    color: var(--fg);
+  }
+  .btn--nav {
+    font-size: 14px;
+    padding: 12px 18px;
+    white-space: nowrap;
+  }
+
+  .nav-link {
+    font: 500 14px/1 var(--font-sans), sans-serif;
+    color: var(--fg3);
+  }
+  .nav-link:hover,
+  .nav-link[aria-current='page'] {
+    color: var(--fg);
+  }
+
+  .toggle-cell {
+    font: 500 12px/1 var(--font-mono), monospace;
+    letter-spacing: 0.08em;
+    padding: 9px 12px;
+    color: var(--fg3);
+    background: transparent;
+  }
+  /* Active cell is driven by the [data-theme] attribute the pre-paint script
+     sets on <html>, so the right cell is lit on first paint, before React
+     hydrates. */
+  [data-theme='dark'] .toggle-cell[data-theme-value='dark'],
+  [data-theme='light'] .toggle-cell[data-theme-value='light'] {
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  /* Bordered mono chip — tech tags on cards. */
+  .chip {
+    font: 400 12px/1 var(--font-mono), monospace;
+    color: var(--fg3);
+    border: 1px solid var(--line);
+    padding: 7px 9px;
+  }
+  /* Larger chip — the stack cloud. */
+  .chip--lg {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--fg);
+    padding: 12px 15px;
+    white-space: nowrap;
+  }
+
+  /* Whole card is the link; the hover repaint is the only card state. */
+  .work-card:hover {
+    background: var(--panel);
+  }
+
+  .link-mono {
+    font: 400 13px/1 var(--font-mono), monospace;
+    color: var(--fg3);
+  }
+  .link-mono:hover {
+    color: var(--fg);
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: block;
+  }
+
+  /* ═════════════════════════════════════════════════════════════
+     Article body — the elements PortableText does not map itself.
+     ═════════════════════════════════════════════════════════════ */
+  /* One measure for the whole article — header, image and body share it, so
+     nothing overhangs the reading column. Left-aligned like everything else
+     in this design. */
+  .article-shell {
+    max-width: 760px;
+  }
+  .article-body {
+    font: 400 17px/1.7 var(--font-sans), sans-serif;
+    color: var(--fg2);
+  }
+  .article-body a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .article-body strong {
+    color: var(--fg);
+    font-weight: 600;
+  }
+  .article-body em {
+    font-style: italic;
+  }
+  .article-body ul,
+  .article-body ol {
+    margin: 0 0 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .article-body ul {
+    list-style: square;
+  }
+  .article-body ol {
+    list-style: decimal;
+  }
+  .article-body li::marker {
+    color: var(--fg3);
+  }
+  .article-body hr {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 40px 0;
+  }
+  .article-body figure {
+    margin: 32px 0;
+  }
+  .article-body pre {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    padding: 16px;
+    overflow-x: auto;
+  }
+  .article-body code {
+    font-family: var(--font-mono), monospace;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Responsive — two breakpoints, exactly as specified.
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1080px) {
+  .h1 {
+    font-size: clamp(38px, 7vw, 66px);
+  }
+  .h2 {
+    font-size: clamp(28px, 4.4vw, 46px);
+  }
+  .grid-4 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 44px;
+    padding-top: 60px;
+  }
+  .metric-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .metric-grid > * {
+    padding: 24px;
+    border-right: none;
+  }
+  .metric-grid > *:first-child {
+    padding-left: 24px;
+  }
+  .metric-grid > *:nth-child(1),
+  .metric-grid > *:nth-child(2) {
+    border-bottom: 1px solid var(--line);
+  }
+  .contact-grid {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --pad: 22px;
+    --section-gap: 56px;
+  }
+  .grid-2,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+  .metric-grid {
+    grid-template-columns: 1fr;
+  }
+  .metric-grid > * {
+    border-bottom: 1px solid var(--line);
+  }
+  .metric-grid > *:last-child {
+    border-bottom: none;
+  }
+  /* Single column has no empty cell to fill. */
+  [data-filler] {
+    display: none;
+  }
+  [data-nav-links] {
+    display: none !important;
+  }
+  [data-nav-menu-button] {
+    display: inline-flex !important;
+  }
+  /* Below this breakpoint the nav is identity, theme, menu — the CTA moves
+     into the menu panel so the bar stays one row on a phone. */
+  [data-nav-cta] {
+    display: none !important;
+  }
+  [data-nav-controls] {
+    gap: 16px !important;
+  }
+  /* Stacks to UJJAVAL / PARMAR so the bar stays one row on a phone — the
+     same wrap the design reference shows at narrow widths. */
+  [data-logotype] {
+    max-width: 7ch;
+    line-height: 1.35;
+  }
+}
+
+/* The disclosure panel only exists below the nav breakpoint. */
+@media (min-width: 761px) {
+  [data-nav-mobile] {
+    display: none;
   }
 }
