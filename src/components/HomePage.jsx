@@ -1,32 +1,27 @@
-'use client'
-
-import React from 'react'
-import Navbar from './Navbar'
-import Hero from './Hero'
-import About from './About'
-import Skills from './Skills'
-import Experience from './Experience'
-import Projects from './Projects'
-import Education from './Education'
-import Contact from './Contact'
+import Nav from './Nav'
 import Footer from './Footer'
-import ParticleBackground from './ParticleBackground'
+import Hero from './home/Hero'
+import Metrics from './home/Metrics'
+import Work from './home/Work'
+import HowIWork from './home/HowIWork'
+import Shift from './home/Shift'
+import Stack from './home/Stack'
+import ContactBlock from './home/ContactBlock'
 
 export default function HomePage() {
   return (
-    <div className="relative min-h-screen bg-background">
-      <ParticleBackground />
-      <Navbar />
-      <main>
+    <>
+      <Nav />
+      <main id="main">
         <Hero />
-        <About />
-        <Skills />
-        <Experience />
-        <Projects />
-        <Education />
-        <Contact />
+        <Metrics />
+        <Work />
+        <HowIWork />
+        <Shift />
+        <Stack />
+        <ContactBlock />
       </main>
       <Footer />
-    </div>
+    </>
   )
 }

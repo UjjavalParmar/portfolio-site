@@ -16,9 +16,10 @@ My personal portfolio - a production-grade website where I showcase my DevOps jo
 apiVersion: portfolio/v1
 kind: Website
 spec:
-  framework: Next.js 14
-  styling: Tailwind CSS
-  animations: Framer Motion
+  framework: Next.js 14 (App Router)
+  styling: CSS custom properties + Tailwind
+  fonts: Bricolage Grotesque / Public Sans / IBM Plex Mono (self-hosted)
+  themes: dark + light, persisted to localStorage
   cms: Sanity
   deployment: Vercel
   monitoring: Vercel Speed Insights
@@ -46,13 +47,29 @@ npm run build
 
 ```
 .
-├── app/          # Next.js app router
+├── app/                    # Routes, metadata, sitemap, robots, RSS
 ├── src/
-│   ├── components/   # UI components
-│   └── lib/          # Utilities & Sanity client
-├── public/       # Static assets
-└── sanity/       # CMS config
+│   ├── components/
+│   │   ├── home/           # Homepage sections
+│   │   ├── Nav.jsx         # Sticky nav, theme toggle, mobile menu
+│   │   └── Footer.jsx
+│   ├── data/site.js        # Projects, steps, stack, profile — content as data
+│   ├── index.css           # Design tokens + the whole design system
+│   └── lib/                # Sanity client
+├── public/                 # Static assets
+└── sanity/                 # CMS config
 ```
+
+## Design System
+
+Every colour, type role and spacing decision lives in `src/index.css`. The two
+themes are token sets on `:root` and `[data-theme="light"]`; an inline script in
+the document head resolves the stored choice before first paint, so there is no
+flash of the wrong theme. Content for the homepage sections is data in
+`src/data/site.js`, not hand-written markup.
+
+Zero border radius, 1px hairlines, no shadows, no entrance animations — that is
+deliberate, not unfinished.
 
 ## Environment Variables
 
