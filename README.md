@@ -18,12 +18,11 @@ kind: Website
 spec:
   framework: Next.js 14 (App Router)
   styling: CSS custom properties + Tailwind
-  fonts: Bricolage Grotesque / Public Sans / IBM Plex Mono (self-hosted)
+  fonts: Anton / Public Sans / IBM Plex Mono (self-hosted by next/font)
   themes: dark + light, persisted to localStorage
   cms: Sanity
   deployment: Vercel
   monitoring: Vercel Speed Insights
-  uptime: 99.9% (hopefully)
 ```
 
 ## Quick Start
@@ -68,8 +67,13 @@ the document head resolves the stored choice before first paint, so there is no
 flash of the wrong theme. Content for the homepage sections is data in
 `src/data/site.js`, not hand-written markup.
 
-Zero border radius, 1px hairlines, no shadows, no entrance animations — that is
-deliberate, not unfinished.
+The visual direction pairs black and lime with oversized condensed headings,
+a fine grid, asymmetric project placement, and off-white experience panels.
+Original SVG infrastructure illustrations live in `InfrastructureArt.jsx`;
+the project walkthroughs retain semantic architecture flows. Illustrations are
+conceptual views, not production screenshots. The short entrance animation
+respects reduced-motion settings. Both themes, keyboard controls, and the
+mobile navigation remain supported.
 
 ## Environment Variables
 
@@ -82,6 +86,14 @@ NEXT_PUBLIC_SANITY_DATASET=production
 
 ---
 
-**Built with chai, Kubernetes knowledge, and zero downtime deployments.**
+**Built with chai and Kubernetes knowledge.**
+
+Portfolio content and project walkthroughs live in `src/data/site.js`. Project
+pages at `/work/[slug]` include responsive conceptual architecture diagrams.
+The resume downloads are in `public/`, with editable copy in `docs/resume.md`.
+Research sources and methodology are in `docs/portfolio-research.md`.
+
+Run `node --test tests/portfolio.test.mjs` to check project destinations, resume
+availability, and the removal of unsupported performance claims.
 
 *— Ujjaval Parmar | DevOps Engineer*

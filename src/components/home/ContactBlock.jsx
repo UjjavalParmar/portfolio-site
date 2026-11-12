@@ -1,71 +1,30 @@
+import ArrowIcon from '../ArrowIcon'
 import { profile } from '../../data/site'
 
 export default function ContactBlock() {
-  const links = [
-    { label: 'GitHub', href: profile.github, external: true },
-    { label: 'LinkedIn', href: profile.linkedin, external: true },
-    { label: profile.phone, href: profile.phoneHref },
-  ]
-
   return (
-    <section
-      id="contact"
-      className="shell section"
-      aria-labelledby="contact-title"
-    >
-      <div className="contact-grid">
-        <div>
-          <h2
-            id="contact-title"
-            className="h2 h2--lg"
-            style={{ margin: '0 0 16px', maxWidth: '22ch' }}
-          >
-            Hiring for infrastructure that has to stay up?
+    <section id="contact" className="contact-section" aria-labelledby="contact-title">
+      <div className="shell">
+        <div className="contact-grid">
+          <h2 id="contact-title" className="contact-title">
+            Your next <br />DevOps engineer<span>.</span>
           </h2>
-          <p className="body-contact" style={{ margin: 0, maxWidth: '46ch' }}>
-            I reply within a day. Happy to walk through any of the case studies
-            in detail.
-          </p>
+          <div className="contact-copy">
+            <p>
+              Send me the role and the infrastructure challenge your team is working on.
+              I’m open to opportunities worldwide, including remote work and relocation.
+            </p>
+            <a href={`mailto:${profile.email}`} className="btn btn--ink">
+              Let’s talk <ArrowIcon />
+            </a>
+            <a className="contact-email" href={`mailto:${profile.email}`}>{profile.email}</a>
+          </div>
         </div>
-
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '10px',
-            alignItems: 'flex-start',
-          }}
-        >
-          <a
-            href={`mailto:${profile.email}`}
-            className="btn btn--primary"
-            style={{ whiteSpace: 'nowrap' }}
-          >
-            {profile.email}
-          </a>
-          <ul
-            style={{
-              display: 'flex',
-              gap: '20px',
-              flexWrap: 'wrap',
-              paddingLeft: '2px',
-              listStyle: 'none',
-            }}
-          >
-            {links.map((l) => (
-              <li key={l.label}>
-                <a
-                  href={l.href}
-                  className="link-mono"
-                  {...(l.external
-                    ? { target: '_blank', rel: 'noopener noreferrer' }
-                    : {})}
-                >
-                  {l.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+        <div className="contact-links">
+          <a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub <ArrowIcon /></a>
+          <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <ArrowIcon /></a>
+          <a href={profile.phoneHref}>{profile.phone}</a>
+          <a href={profile.resume} download>Download résumé <ArrowIcon direction="down" /></a>
         </div>
       </div>
     </section>

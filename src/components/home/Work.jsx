@@ -1,83 +1,25 @@
+import ArrowIcon from '../ArrowIcon'
 import Link from 'next/link'
-import SectionHead from './SectionHead'
+import ProjectArt from '../InfrastructureArt'
 import { projects } from '../../data/site'
 
 export default function Work() {
   return (
-    <section id="work" className="shell section" aria-labelledby="work-title">
-      <SectionHead
-        eyebrow="selected work"
-        title={
-          <span id="work-title">Four systems, and what they cost to run.</span>
-        }
-        titleWidth="24ch"
-        intro="Each one opens into a full writeup: the constraint, the architecture, what broke first, and the numbers after."
-        introWidth="54ch"
-      />
-
-      <div className="rule-grid grid-2">
+    <section id="work" className="shell section work-section" aria-labelledby="work-title">
+      <div className="section-heading">
+        <div><h2 id="work-title" className="h2">Inside the <br /><span className="accent-text">infrastructure.</span></h2></div>
+        <p className="body-intro">From the first image build to production routing. Four walkthroughs of the problems, the implementation, and the resulting systems.</p>
+      </div>
+      <div className="project-grid">
         {projects.map((p) => (
-          <Link
-            key={p.num}
-            href={p.href}
-            className="work-card"
-            style={{
-              padding: '30px 32px 28px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '14px',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'baseline',
-                justifyContent: 'space-between',
-                gap: '16px',
-              }}
-            >
-              <span className="meta">{p.num}</span>
-              <span
-                className="meta meta--strong"
-                style={{ color: 'var(--accent)', letterSpacing: '.06em' }}
-              >
-                {p.impact}
-              </span>
+          <Link key={p.slug} href={`/work/${p.slug}`} className={`project-card project-card--${p.num}`}>
+            <div className="project-preview"><div className="preview-meta"><span>{p.num} / {p.impact}</span><ArrowIcon /></div><ProjectArt slug={p.slug} /><span className="preview-caption">Conceptual architecture</span></div>
+            <div className="project-card-copy">
+              <div className="project-card-title"><h3 className="h3-card">{p.title}</h3><span className="project-arrow"><ArrowIcon /></span></div>
+              <p className="body-card">{p.desc}</p>
+              <ul className="project-tags">{p.tech.map(t => <li className="chip" key={t}>{t}</li>)}</ul>
+              <span className="text-link">Read the project <ArrowIcon direction="right" /></span>
             </div>
-
-            <h3 className="h3-card" style={{ margin: 0, maxWidth: '22ch' }}>
-              {p.title}
-            </h3>
-
-            <p className="body-card" style={{ margin: 0, maxWidth: '46ch' }}>
-              {p.desc}
-            </p>
-
-            <ul
-              style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '6px',
-                marginTop: '4px',
-                listStyle: 'none',
-              }}
-            >
-              {p.tech.map((t) => (
-                <li key={t} className="chip">
-                  {t}
-                </li>
-              ))}
-            </ul>
-
-            <span
-              style={{
-                font: '600 14px/1 var(--font-sans), sans-serif',
-                color: 'var(--accent)',
-                marginTop: '6px',
-              }}
-            >
-              Read the writeup →
-            </span>
           </Link>
         ))}
       </div>

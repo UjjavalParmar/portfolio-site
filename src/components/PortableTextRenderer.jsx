@@ -124,15 +124,15 @@ const components = {
               color: 'var(--fg3)',
             }}
           >
-            <span style={{ color: 'var(--accent)' }}>{value.filename}</span>
+            <span style={{ color: 'var(--accent)', minWidth: 0, overflowWrap: 'anywhere' }}>{value.filename}</span>
             {value.language && (
-              <span style={{ marginLeft: 'auto', textTransform: 'uppercase' }}>
+              <span style={{ marginLeft: 'auto', flexShrink: 0, textTransform: 'uppercase' }}>
                 {value.language}
               </span>
             )}
           </div>
         )}
-        <pre style={{ margin: 0 }}>
+        <pre tabIndex={0} aria-label={value.filename ? `Code: ${value.filename}` : 'Code example'} style={{ margin: 0 }}>
           <code
             style={{
               font: '400 13px/1.7 var(--font-mono), monospace',

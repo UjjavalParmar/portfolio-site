@@ -1,4 +1,5 @@
 import HomePage from '../src/components/HomePage'
+import { profile } from '../src/data/site'
 
 export const metadata = {
   alternates: {
@@ -17,10 +18,10 @@ export default function Page() {
     url: siteUrl,
     jobTitle: 'DevOps Engineer',
     description:
-      'Associate DevOps Engineer specializing in AWS, Kubernetes, CI/CD, and cloud infrastructure.',
+      'DevOps Engineer building GitOps pipelines for 10+ microservices and reusable Helm delivery across five environments on AWS.',
     sameAs: [
-      'https://github.com/UjjavalParmar',
-      'https://linkedin.com/in/ujjavalparmar',
+      profile.github,
+      profile.linkedin,
     ],
     knowsAbout: [
       'DevOps',
@@ -42,7 +43,7 @@ export default function Page() {
     name: 'Ujjaval Parmar | DevOps Engineer',
     url: siteUrl,
     description:
-      'Portfolio of Ujjaval Parmar - Associate DevOps Engineer specializing in AWS, Kubernetes, CI/CD, and cloud infrastructure.',
+      'DevOps engineering work by Ujjaval Parmar: GitOps delivery, reusable Helm charts, Terraform on AWS, and Kubernetes Gateway API.',
     author: {
       '@type': 'Person',
       name: 'Ujjaval Parmar',

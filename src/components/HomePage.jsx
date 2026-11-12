@@ -3,8 +3,7 @@ import Footer from './Footer'
 import Hero from './home/Hero'
 import Metrics from './home/Metrics'
 import Work from './home/Work'
-import HowIWork from './home/HowIWork'
-import Shift from './home/Shift'
+import Experience from './home/Experience'
 import Stack from './home/Stack'
 import ContactBlock from './home/ContactBlock'
 
@@ -16,8 +15,7 @@ export default function HomePage() {
         <Hero />
         <Metrics />
         <Work />
-        <HowIWork />
-        <Shift />
+        <Experience />
         <Stack />
         <ContactBlock />
       </main>
