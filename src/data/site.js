@@ -1,141 +1,157 @@
-/**
- * Site content. Cards, steps and tags stay as data so they are easy to extend
- * without touching markup. Copy here is final — do not reword.
- */
-
+/** Shared portfolio copy, grounded in the supplied resume. */
 export const profile = {
   name: 'Ujjaval Parmar',
   role: 'Associate DevOps Engineer',
   email: 'ujjavalworkmail22@gmail.com',
   phone: '+91 75738 69598',
   phoneHref: 'tel:+917573869598',
-  location: 'Ahmedabad, Gujarat, India',
+  location: 'Ahmedabad, India',
   github: 'https://github.com/UjjavalParmar',
-  linkedin: 'https://www.linkedin.com/in/ujjaval-parmar-6055b7178/',
-  resume:
-    'https://docs.google.com/document/d/1tr2V0XPsnVvAlyg_PLxKM9fIT-34jmLq/edit?usp=sharing&ouid=108587002836749340351&rtpof=true&sd=true',
+  linkedin: 'https://www.linkedin.com/in/ujjaval-devops/',
+  resume: '/Ujjaval-Parmar-DevOps-Resume.pdf',
 }
 
 export const metrics = [
-  { value: '50%', caption: 'Cut in deployment time', accent: true },
-  { value: '99.99%', caption: 'Uptime SLA on multi-AZ AWS' },
-  { value: '40%', caption: 'Faster incident debugging' },
-  { value: '0', caption: 'Downtime incidents in 90 days' },
+  { value: '10+', caption: 'Microservices supported by GitOps pipelines', accent: true },
+  { value: '5', caption: 'Environments using reusable Helm charts' },
+  { value: 'GitOps', caption: 'Jenkins CI and Argo CD delivery' },
+  { value: 'IaC', caption: 'AWS infrastructure defined in Terraform' },
 ]
 
-/**
- * `href` is where "Read the writeup →" points. The design calls for a
- * dedicated case-study page per project; until those exist each card points at
- * the blog, where the writeups live. Change one field to repoint a card.
- */
 export const projects = [
   {
     num: '01',
-    impact: '50% faster deployments',
-    title: 'Automated GitOps CI/CD with Kubernetes & ArgoCD',
-    desc: 'A multi-branch Jenkins pipeline that updates manifests and image tags itself, so five microservices deploy without anyone editing YAML.',
-    tech: ['Jenkins', 'ArgoCD', 'Kubernetes', 'Helm', 'Doppler'],
-    href: '/blog',
+    slug: 'gitops-delivery',
+    impact: '10+ microservices',
+    title: 'From image build to GitOps delivery',
+    desc: 'Jenkins builds, image-tag updates, and Argo CD reconciliation connect development, test, and production deployments.',
+    tech: ['Jenkins', 'Argo CD', 'Kubernetes', 'Doppler'],
+    problem: 'A release needs a clear path from application code to the configuration running in each environment. Image versions, deployment permissions, and secrets all need a place in that workflow.',
+    contribution: [
+      'Designed and maintained Jenkins and Argo CD delivery pipelines for 10+ microservices across development, test, and production.',
+      'Built multi-branch pipelines with automated image-tag updates and manifest synchronization.',
+      'Integrated Doppler for runtime secret injection and configured Argo CD RBAC for environment-specific deployment access.',
+    ],
+    outcome: 'Application builds and deployment configuration are connected through a repeatable GitOps workflow, with environment access defined through RBAC.',
+    considerations: 'CI builds an artifact; Argo CD reconciles the declared deployment state. Deployment access and secret handling remain separate controls in that flow.',
+    flow: [
+      { title: 'Jenkins CI', detail: 'Build and tag image' },
+      { title: 'Manifest repository', detail: 'Update image version' },
+      { title: 'Argo CD', detail: 'Reconcile desired state' },
+      { title: 'Kubernetes', detail: 'Run declared workloads' },
+    ],
   },
   {
     num: '02',
-    impact: '99.99% uptime SLA',
-    title: 'Scalable & secure AWS architecture with load balancing',
-    desc: 'Multi-AZ VPC, application load balancing and scoped security groups, provisioned end to end in Terraform so the whole environment is reproducible.',
-    tech: ['AWS', 'Terraform', 'VPC', 'ALB', 'Route 53'],
-    href: '/blog',
+    slug: 'helm-environments',
+    impact: 'Five environments',
+    title: 'One Helm foundation, separate environments',
+    desc: 'Reusable service and frontend charts share deployment structure while keeping configuration specific to each environment.',
+    tech: ['Helm', 'Amazon EKS', 'Kubernetes', 'Gateway API'],
+    problem: 'Services need a consistent deployment structure without sharing the same configuration everywhere. The platform needs to express both the common resources and the differences between environments.',
+    contribution: [
+      'Authored reusable base-service and base-frontend Helm charts and standardized EKS delivery across five environments.',
+      'Parameterized Deployments, Services, ConfigMaps, Secrets, and HTTPRoutes for each environment.',
+      'Defined resource requests and limits, image pull secrets, and versioned chart releases within the shared chart structure.',
+    ],
+    outcome: 'Services use reusable chart templates with isolated environment configuration, giving Kubernetes delivery a consistent structure across five environments.',
+    considerations: 'Shared templates need explicit environment values. Resource settings and chart versions still need review for each workload; a reusable chart does not make every workload identical.',
+    flow: [
+      { title: 'Base charts', detail: 'Service and frontend' },
+      { title: 'Environment values', detail: 'Separate configuration' },
+      { title: 'Helm resources', detail: 'Templates and versions' },
+      { title: 'Five environments', detail: 'Consistent delivery' },
+    ],
   },
   {
     num: '03',
-    impact: '40% faster debugging',
-    title: 'Centralized monitoring & logging infrastructure',
-    desc: 'ELK for logs, Prometheus and Grafana for metrics, New Relic for traces. One place to look when something is slow at 2am.',
-    tech: ['ELK Stack', 'Prometheus', 'Grafana', 'New Relic'],
-    href: '/blog',
+    slug: 'terraform-aws',
+    impact: 'Reproducible infrastructure',
+    title: 'AWS infrastructure, defined in Terraform',
+    desc: 'A multi-AZ network, TLS-enabled load balancing, and scoped access controls described as reusable infrastructure code.',
+    tech: ['AWS', 'Terraform', 'VPC', 'ALB', 'IAM'],
+    problem: 'Infrastructure needs an explicit description of its network boundaries, traffic entry points, and access permissions. Those choices need to be reproducible when an environment is provisioned again.',
+    contribution: [
+      'Designed a multi-AZ AWS architecture with public and private subnets, an Application Load Balancer, and security groups using Terraform.',
+      'Configured ALB TLS termination and health checks within the infrastructure definition.',
+      'Applied least-privilege IAM and network segmentation, and managed AWS resources through Terraform modules.',
+    ],
+    outcome: 'Network topology, load balancing, and access controls are represented in Terraform, providing a reproducible foundation for AWS environments.',
+    considerations: 'Network segmentation defines access boundaries; workload resilience also depends on placement and application dependencies. Infrastructure changes need review alongside the services that use them.',
+    flow: [
+      { title: 'Terraform', detail: 'Infrastructure modules' },
+      { title: 'Multi-AZ VPC', detail: 'Public and private subnets' },
+      { title: 'Application LB', detail: 'TLS and health checks' },
+      { title: 'Workload network', detail: 'Scoped security groups' },
+    ],
   },
   {
     num: '04',
-    impact: 'Zero downtime',
-    title: 'Kubernetes high availability cluster',
-    desc: 'Multi-node clusters with rolling updates, liveness and readiness probes, pod disruption budgets and automated rollback on a failed check.',
-    tech: ['Kubernetes', 'EKS', 'Helm', 'Docker'],
-    href: '/blog',
+    slug: 'gateway-api-migration',
+    impact: 'Production routing migration',
+    title: 'Moving production routing to Gateway API',
+    desc: 'Migrated legacy Ingress routing to Gateway API with centralized, namespace-aware HTTPRoute rules.',
+    tech: ['Kubernetes', 'Gateway API', 'HTTPRoute', 'Helm'],
+    problem: 'Production traffic routing needs a clear relationship between the gateway, route rules, and the services receiving requests. The migration moved that routing configuration from legacy Ingress to Gateway API.',
+    contribution: [
+      'Migrated production traffic routing from legacy Ingress to Kubernetes Gateway API.',
+      'Replaced legacy routing configuration with centralized, namespace-aware HTTPRoute rules.',
+      'Parameterized HTTPRoutes alongside the other Kubernetes resources in the environment-specific Helm configuration.',
+    ],
+    outcome: 'Production routing uses Gateway API and HTTPRoute configuration with namespace-aware rules, replacing the legacy Ingress setup.',
+    considerations: 'Gateway configuration and application routes have distinct responsibilities. Route matching and namespace permissions need to reflect the intended service boundaries.',
+    flow: [
+      { title: 'Gateway', detail: 'Traffic entry point' },
+      { title: 'HTTPRoute', detail: 'Namespace-aware rules' },
+      { title: 'Kubernetes Service', detail: 'Route destination' },
+      { title: 'Workload pods', detail: 'Application traffic' },
+    ],
   },
 ]
 
 export const steps = [
-  {
-    num: 'STEP 01',
-    title: 'Build',
-    desc: 'Jenkins builds the image, tags it by commit and pushes to Docker Hub with version retention.',
-  },
-  {
-    num: 'STEP 02',
-    title: 'Declare',
-    desc: 'The pipeline updates Helm values in the manifest repo. That commit is the deploy request.',
-  },
-  {
-    num: 'STEP 03',
-    title: 'Reconcile',
-    desc: 'ArgoCD detects drift and syncs the cluster, scoped by RBAC per environment.',
-  },
-  {
-    num: 'STEP 04',
-    title: 'Verify',
-    desc: 'Probes and Grafana alerts decide. A failed check rolls back before anyone pages me.',
-  },
+  { num: 'STEP 01', title: 'Build', desc: 'Jenkins builds and tags the application image.' },
+  { num: 'STEP 02', title: 'Declare', desc: 'The pipeline updates image versions in the deployment manifests.' },
+  { num: 'STEP 03', title: 'Reconcile', desc: 'Argo CD syncs the declared state, with access scoped by environment.' },
+  { num: 'STEP 04', title: 'Observe', desc: 'Probes, metrics, alerts, and logs support rollout checks and incident investigation.' },
 ]
 
-export const shift = {
-  before: [
-    'Manifests edited by hand, image tags drifting between environments.',
-    'Secrets pasted into CI variables, with rotation nobody tracked.',
-    "Onboarding a service meant copying last week's YAML and hoping.",
-    'Debugging started with SSH and ended in three unrelated log files.',
-  ],
-  after: [
-    'Git is the only source of truth. ArgoCD reconciles, RBAC scoped per environment.',
-    'Doppler holds every secret. Nothing sensitive lives in a pipeline config.',
-    'One reusable Helm chart. A new service onboards in an afternoon.',
-    'ELK, Prometheus and Grafana. The dashboard answers before I do.',
-  ],
-}
-
-export const tools = [
-  'AWS',
-  'Kubernetes',
-  'EKS',
-  'Terraform',
-  'Jenkins',
-  'ArgoCD',
-  'Helm',
-  'Docker',
-  'ELK Stack',
-  'Prometheus',
-  'Grafana',
-  'New Relic',
-  'Doppler',
-  'Bash',
-  'Python',
-  'Linux',
+export const skillGroups = [
+  { title: 'Delivery automation', tools: 'Jenkins · Argo CD · Helm · Doppler', evidence: 'GitOps pipelines for 10+ microservices.', href: '/work/gitops-delivery' },
+  { title: 'Kubernetes delivery', tools: 'Amazon EKS · Kubernetes · Gateway API', evidence: 'Reusable charts across five environments and a production routing migration.', href: '/work/helm-environments' },
+  { title: 'Infrastructure as code', tools: 'AWS · Terraform · IAM · VPC · ALB', evidence: 'Multi-AZ infrastructure with explicit network and access boundaries.', href: '/work/terraform-aws' },
+  { title: 'Production visibility', tools: 'Prometheus · Grafana · ELK · New Relic', evidence: 'Custom alert rules and centralized logs for production investigation.' },
+  { title: 'Operations and security', tools: 'Linux · Bash · Python · Ansible · NetworkPolicies', evidence: 'Provisioning, patching, log rotation, and pod communication controls.' },
 ]
 
-/** Static, mid-deploy by design. It does not tick. */
-export const pipeline = {
-  service: 'PIPELINE · payments-api',
-  status: 'PASSING',
-  steps: [
-    { glyph: '✓', tone: 'ok', label: 'build → docker hub', timing: '42s' },
-    { glyph: '✓', tone: 'ok', label: 'helm values bump', timing: '8s' },
-    { glyph: '✓', tone: 'ok', label: 'argocd sync · staging', timing: '1m 04s' },
-    { glyph: '▸', tone: 'accent', label: 'rolling update · prod', timing: '3/5 pods' },
-  ],
-  footer: { label: 'downtime this deploy', value: '0.00s' },
-}
+export const experience = [
+  {
+    title: 'Associate DevOps Engineer',
+    dates: 'July 2024–Present',
+    bullets: [
+      'Designed and maintained Jenkins and Argo CD pipelines for 10+ microservices, automating deployments across development, test, and production.',
+      'Standardized Amazon EKS delivery across five environments with reusable Helm charts and isolated environment configuration.',
+      'Migrated production routing from legacy Ingress to Kubernetes Gateway API using centralized, namespace-aware HTTPRoute rules.',
+      'Deployed Prometheus, Grafana, New Relic, and ELK with custom alerts and centralized logs to support production monitoring and incident investigation.',
+      'Managed AWS infrastructure through Terraform modules, making environment configurations reproducible.',
+      'Applied Kubernetes NetworkPolicies to restrict pod communication and implement workload isolation in production.',
+      'Automated provisioning, patching, and log rotation with Bash, Python, and Ansible, replacing manual operational steps.',
+    ],
+  },
+  {
+    title: 'Software Engineering Trainee (Internship)',
+    dates: 'January–June 2024',
+    bullets: [
+      'Containerized legacy services with multi-stage Docker builds, standardizing application builds and packaging.',
+      'Configured Kubernetes liveness and readiness probes and graceful-shutdown hooks to support rolling updates.',
+      'Provisioned ACM certificates and configured Nginx TLS termination for internal staging domains.',
+    ],
+  },
+]
 
 export const navLinks = [
   { label: 'Work', href: '#work' },
-  { label: 'How I work', href: '#how', nowrap: true },
+  { label: 'Experience', href: '#experience' },
   { label: 'Stack', href: '#stack' },
   { label: 'Blog', href: '/blog', route: true },
 ]

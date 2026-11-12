@@ -1,87 +1,62 @@
-# Ujjaval's Portfolio
+# Ujjaval Parmar — Portfolio
 
-> Because even DevOps engineers need a place to `kubectl describe` themselves.
+This is the source for my portfolio at [devopslife.space](https://www.devopslife.space).
 
-**Live:** [devopslife.space](https://www.devopslife.space)
+I use the site to share my DevOps experience and walk through some of my work with
+AWS, Kubernetes, Terraform, Jenkins, Argo CD, and Helm. Each project page explains
+the problem, what I implemented, and how the pieces fit together.
 
----
+## Built with
 
-## What's This?
+- Next.js 14 and React 18
+- CSS custom properties and Tailwind CSS
+- Sanity for blog content
+- Vercel for hosting and Speed Insights
 
-My personal portfolio - a production-grade website where I showcase my DevOps journey, projects, and the chaos I've automated away.
+The site has dark and light themes, a mobile menu, and a downloadable résumé.
+The architecture diagrams are simplified views of the projects.
 
-## Tech Stack
-
-```yaml
-apiVersion: portfolio/v1
-kind: Website
-spec:
-  framework: Next.js 14 (App Router)
-  styling: CSS custom properties + Tailwind
-  fonts: Bricolage Grotesque / Public Sans / IBM Plex Mono (self-hosted)
-  themes: dark + light, persisted to localStorage
-  cms: Sanity
-  deployment: Vercel
-  monitoring: Vercel Speed Insights
-  uptime: 99.9% (hopefully)
-```
-
-## Quick Start
+## Run locally
 
 ```bash
-# Clone it
-git clone https://github.com/UjjavalParmar/portfolio-site.git
-cd portfolio-site
-
-# Install dependencies (no YAML hell here)
 npm install
-
-# Run locally
 npm run dev
+```
 
-# Build for prod
+Open [localhost:3000](http://localhost:3000).
+
+For a production build:
+
+```bash
+npm run build
+npm run start
+```
+
+## Configuration
+
+Set `NEXT_PUBLIC_SITE_URL` in `.env.local` to the site's public URL.
+
+To connect the blog, add `NEXT_PUBLIC_SANITY_PROJECT_ID` and
+`NEXT_PUBLIC_SANITY_DATASET`. Without a Sanity project ID, the site runs with an
+empty blog. The available settings are listed in `.env.example`.
+
+## Where things live
+
+- `app/` — pages, project routes, metadata, sitemap, and RSS feed
+- `src/components/` — navigation, homepage sections, and shared components
+- `src/data/site.js` — profile, experience, projects, and tools
+- `src/index.css` — colours, typography, layout, and responsive styles
+- `src/lib/` — Sanity queries and image helpers
+- `public/` — portrait, icons, and résumé downloads
+- `sanity/` — blog schema and CMS configuration
+- `docs/resume.md` — a text copy of the current résumé
+
+## Checks
+
+```bash
+node tests/portfolio.test.mjs
 npm run build
 ```
 
-## Project Structure
-
-```
-.
-├── app/                    # Routes, metadata, sitemap, robots, RSS
-├── src/
-│   ├── components/
-│   │   ├── home/           # Homepage sections
-│   │   ├── Nav.jsx         # Sticky nav, theme toggle, mobile menu
-│   │   └── Footer.jsx
-│   ├── data/site.js        # Projects, steps, stack, profile — content as data
-│   ├── index.css           # Design tokens + the whole design system
-│   └── lib/                # Sanity client
-├── public/                 # Static assets
-└── sanity/                 # CMS config
-```
-
-## Design System
-
-Every colour, type role and spacing decision lives in `src/index.css`. The two
-themes are token sets on `:root` and `[data-theme="light"]`; an inline script in
-the document head resolves the stored choice before first paint, so there is no
-flash of the wrong theme. Content for the homepage sections is data in
-`src/data/site.js`, not hand-written markup.
-
-Zero border radius, 1px hairlines, no shadows, no entrance animations — that is
-deliberate, not unfinished.
-
-## Environment Variables
-
-```bash
-# Create .env.local
-NEXT_PUBLIC_SITE_URL=https://www.devopslife.space
-NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
-NEXT_PUBLIC_SANITY_DATASET=production
-```
-
----
-
-**Built with chai, Kubernetes knowledge, and zero downtime deployments.**
-
-*— Ujjaval Parmar | DevOps Engineer*
+The tests check project links, résumé availability, and the claims used in the
+portfolio copy.
