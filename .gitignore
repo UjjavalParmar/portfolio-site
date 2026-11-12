@@ -140,3 +140,36 @@ vite.config.ts.timestamp-*
 
 # Heap snapshots
 *.heapsnapshot
+
+# Local tooling and generated artifacts
+.agents/
+.codex/
+.impeccable/
+.claude/
+.cursor/
+.windsurf/
+.aider*
+.gemini/
+.serena/
+.opencode/
+.continue/
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+CODEX.md
+SKILL.md
+PRODUCT.md
+DESIGN.md
+.cursorrules
+.windsurfrules
+.github/copilot-instructions.md
+.github/instructions/
+output/
+.playwright-cli/
+playwright-report/
+test-results/
+docs/career-upgrade.md
+docs/interface-review.md
+docs/portfolio-research.json
+docs/portfolio-research.md
+docs/verification.md

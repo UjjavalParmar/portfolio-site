@@ -1,4 +1,5 @@
 import { getAllPosts } from '../src/lib/sanity'
+import { projects } from '../src/data/site'
 
 export default async function sitemap() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.devopslife.space'
@@ -36,5 +37,11 @@ export default async function sitemap() {
     priority: 0.7,
   }))
 
-  return [...staticPages, ...blogPages]
+  const projectPages = projects.map(({ slug }) => ({
+    url: `${siteUrl}/work/${slug}`,
+    changeFrequency: 'monthly',
+    priority: 0.8,
+  }))
+
+  return [...staticPages, ...projectPages, ...blogPages]
 }

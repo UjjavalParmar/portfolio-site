@@ -1,9 +1,10 @@
-import { Bricolage_Grotesque, Public_Sans, IBM_Plex_Mono } from 'next/font/google'
+import { Anton, Public_Sans, IBM_Plex_Mono } from 'next/font/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import '../src/index.css'
 
-const display = Bricolage_Grotesque({
+const display = Anton({
   subsets: ['latin'],
+  weight: '400',
   display: 'swap',
   variable: '--font-display',
 })
@@ -33,7 +34,7 @@ export const metadata = {
     template: '%s | Ujjaval Parmar',
   },
   description:
-    'Ujjaval Parmar - Associate DevOps Engineer specializing in AWS, Kubernetes, CI/CD, and cloud infrastructure. Building scalable, secure, and automated solutions.',
+    'Ujjaval Parmar, DevOps Engineer. GitOps pipelines for 10+ microservices, Helm delivery across five environments, Terraform on AWS, and production Gateway API migration.',
   keywords: [
     'DevOps Engineer',
     'AWS',
@@ -53,7 +54,7 @@ export const metadata = {
     siteName: 'Ujjaval Parmar',
     title: 'Ujjaval Parmar | DevOps Engineer',
     description:
-      'Associate DevOps Engineer specializing in cloud infrastructure, Kubernetes, and CI/CD automation.',
+      'DevOps Engineer building repeatable Kubernetes delivery with AWS, Terraform, Helm, Jenkins, and Argo CD. Open to opportunities worldwide.',
     images: [
       {
         url: '/og-image.png',
@@ -67,7 +68,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Ujjaval Parmar | DevOps Engineer',
     description:
-      'Associate DevOps Engineer specializing in cloud infrastructure, Kubernetes, and CI/CD automation.',
+      'DevOps Engineer building repeatable Kubernetes delivery with AWS, Terraform, Helm, Jenkins, and Argo CD. Open to opportunities worldwide.',
     images: ['/og-image.png'],
   },
   robots: {
@@ -101,8 +102,8 @@ export const metadata = {
 
 export const viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: dark)', color: '#0F1113' },
-    { media: '(prefers-color-scheme: light)', color: '#FFFFFF' },
+    { media: '(prefers-color-scheme: dark)', color: '#10110e' },
+    { media: '(prefers-color-scheme: light)', color: '#f0f0e8' },
   ],
 }
 

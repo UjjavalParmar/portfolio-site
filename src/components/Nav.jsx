@@ -1,51 +1,58 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import ArrowIcon from './ArrowIcon'
 import { navLinks, profile } from '../data/site'
 
-const STORAGE_KEY = 'up-portfolio-theme'
-
-function applyTheme(theme) {
-  document.documentElement.dataset.theme = theme
+function applyTheme(value) {
+  document.documentElement.dataset.theme = value
+  document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
+    meta.content = value === 'light' ? '#f0f0e8' : '#10110e'
+  })
   try {
-    localStorage.setItem(STORAGE_KEY, theme)
-  } catch {
-    /* storage unavailable — the page still renders, it just won't persist */
-  }
+    localStorage.setItem('up-portfolio-theme', value)
+  } catch { /* Theme still works without storage. */ }
 }
 
 function ThemeToggle() {
-  // Server renders the dark default; the pre-paint script has already set the
-  // real theme on <html>, and the lit cell is styled off that attribute, so
-  // this state only carries the accessible name.
   const [theme, setTheme] = useState('dark')
 
   useEffect(() => {
-    setTheme(document.documentElement.dataset.theme || 'dark')
+    const value = document.documentElement.dataset.theme || 'dark'
+    setTheme(value)
+    applyTheme(value)
   }, [])
 
-  const choose = (next) => {
-    applyTheme(next)
-    setTheme(next)
+  const choose = value => {
+    applyTheme(value)
+    setTheme(value)
+  }
+
+  const onKeyDown = (event, value) => {
+    if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return
+    event.preventDefault()
+    const next = event.key === 'Home' ? 'dark'
+      : event.key === 'End' ? 'light'
+      : value === 'dark' ? 'light' : 'dark'
+    choose(next)
+    event.currentTarget.parentElement.querySelector(`[data-theme-value="${next}"]`).focus()
   }
 
   return (
-    <div
-      role="radiogroup"
-      aria-label="Colour theme"
-      style={{ display: 'flex', border: '1px solid var(--line)' }}
-    >
-      {['dark', 'light'].map((value) => (
+    <div className="theme-toggle" role="radiogroup" aria-label="Colour theme">
+      {['dark', 'light'].map(value => (
         <button
           key={value}
           type="button"
           role="radio"
           aria-checked={theme === value}
+          tabIndex={theme === value ? 0 : -1}
           data-theme-value={value}
           className="toggle-cell"
           onClick={() => choose(value)}
+          onKeyDown={event => onKeyDown(event, value)}
         >
           {value === 'dark' ? 'Dark' : 'Light'}
         </button>
@@ -54,194 +61,69 @@ function ThemeToggle() {
   )
 }
 
-/** Three hairline bars — no icon library, matching the mono weight around it. */
-function MenuGlyph({ open }) {
-  return (
-    <span
-      aria-hidden="true"
-      style={{
-        display: 'grid',
-        gap: '4px',
-        width: '18px',
-      }}
-    >
-      {[0, 1, 2].map((i) => (
-        <span
-          key={i}
-          style={{
-            height: '1px',
-            background: 'var(--fg)',
-            opacity: open && i === 1 ? 0 : 1,
-          }}
-        />
-      ))}
-    </span>
-  )
-}
-
 export default function Nav() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
-
-  const onHome = pathname === '/'
-  // Anchors only resolve on the homepage; from /blog they need the route.
-  const resolve = (link) => (link.route || onHome ? link.href : `/${link.href}`)
+  const menuButton = useRef(null)
+  const resolve = link => link.route || pathname === '/' ? link.href : `/${link.href}`
+  const isCurrent = link => link.route ? pathname.startsWith(link.href)
+    : link.href === '#work' && pathname.startsWith('/work/')
 
   useEffect(() => {
     if (!open) return
-    const onKey = (e) => e.key === 'Escape' && setOpen(false)
+    const onKey = event => {
+      if (event.key === 'Escape') {
+        setOpen(false)
+        menuButton.current?.focus()
+      }
+    }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [open])
 
-  const links = navLinks.map((link) => {
-    const href = resolve(link)
-    const current = link.route && pathname.startsWith(link.href)
-    const props = {
-      href,
-      className: 'nav-link',
-      ...(current ? { 'aria-current': 'page' } : {}),
-      ...(link.nowrap ? { style: { whiteSpace: 'nowrap' } } : {}),
-    }
-    return link.route ? (
-      <Link key={link.label} {...props}>
-        {link.label}
-      </Link>
-    ) : (
-      <a key={link.label} {...props}>
-        {link.label}
-      </a>
-    )
-  })
-
   return (
-    <header
-      style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 20,
-        background: 'var(--bg)',
-        borderBottom: '1px solid var(--line)',
-      }}
-    >
-      <div
-        className="shell"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '20px',
-          paddingTop: '16px',
-          paddingBottom: '16px',
-          flexWrap: 'wrap',
-        }}
-      >
-        <Link
-          href="/"
-          style={{ display: 'flex', alignItems: 'center', gap: '11px' }}
-        >
-          <span
-            aria-hidden="true"
-            style={{ width: '9px', height: '9px', background: 'var(--accent)' }}
-          />
-          <span
-            data-logotype
-            style={{
-              font: '500 13px/1 var(--font-mono), monospace',
-              letterSpacing: '.12em',
-            }}
-          >
-            {profile.name.toUpperCase()}
-          </span>
+    <header className="site-header">
+      <div className="shell nav-bar">
+        <Link href="/" className="logotype" aria-label="Ujjaval Parmar — home">
+          <span className="logo-mark" aria-hidden="true">u/p</span>
+          <span data-logotype>Ujjaval<br />Parmar</span>
         </Link>
-
-        <div
-          data-nav-controls
-          style={{ display: 'flex', gap: '24px', alignItems: 'center' }}
-        >
-          <nav
-            aria-label="Sections"
-            data-nav-links
-            style={{ display: 'flex', gap: '28px', alignItems: 'center' }}
-          >
-            {links}
-          </nav>
-
+        <nav aria-label="Sections" data-nav-links>
+          {navLinks.map(link => (
+            <Link key={link.label} href={resolve(link)} className="nav-link" aria-current={isCurrent(link) ? 'page' : undefined}>
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+        <div data-nav-controls>
           <ThemeToggle />
-
-          <a
-            href={`mailto:${profile.email}`}
-            data-nav-cta
-            className="btn btn--primary btn--nav"
-          >
-            Get in touch
+          <a href={`mailto:${profile.email}`} data-nav-cta className="btn btn--primary btn--nav">
+            Let’s talk <ArrowIcon />
           </a>
-
           <button
+            ref={menuButton}
             type="button"
             data-nav-menu-button
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? 'Close menu' : 'Open menu'}
-            onClick={() => setOpen((v) => !v)}
-            style={{
-              display: 'none',
-              border: '1px solid var(--line)',
-              padding: '12px',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
+            onClick={() => setOpen(!open)}
           >
-            <MenuGlyph open={open} />
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true" focusable="false">
+              <path d={open ? 'm6 6 12 12M6 18 18 6' : 'M4 7h16M4 12h16M4 17h16'} />
+            </svg>
           </button>
         </div>
       </div>
-
       {open && (
-        <nav
-          id="mobile-menu"
-          aria-label="Sections"
-          data-nav-mobile
-          style={{
-            borderTop: '1px solid var(--line)',
-            background: 'var(--bg)',
-          }}
-        >
-          {navLinks.map((link) => {
-            const href = resolve(link)
-            const props = {
-              href,
-              onClick: () => setOpen(false),
-              style: {
-                display: 'block',
-                padding: '16px var(--pad)',
-                borderBottom: '1px solid var(--line2)',
-                font: '500 15px/1 var(--font-sans), sans-serif',
-                color: 'var(--fg)',
-              },
-            }
-            return link.route ? (
-              <Link key={link.label} {...props}>
-                {link.label}
-              </Link>
-            ) : (
-              <a key={link.label} {...props}>
-                {link.label}
-              </a>
-            )
-          })}
-
-          <a
-            href={`mailto:${profile.email}`}
-            onClick={() => setOpen(false)}
-            className="btn btn--primary"
-            style={{
-              display: 'block',
-              margin: '20px var(--pad) 24px',
-              textAlign: 'center',
-            }}
-          >
-            Get in touch
+        <nav id="mobile-menu" aria-label="Mobile sections" data-nav-mobile>
+          {navLinks.map(link => (
+            <Link key={link.label} href={resolve(link)} aria-current={isCurrent(link) ? 'page' : undefined} onClick={() => setOpen(false)}>
+              {link.label}<ArrowIcon />
+            </Link>
+          ))}
+          <a href={`mailto:${profile.email}`} onClick={() => setOpen(false)}>
+            Get in touch <ArrowIcon />
           </a>
         </nav>
       )}
