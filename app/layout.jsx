@@ -84,20 +84,20 @@ export const metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: '16x16 32x32 48x48' },
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/icon-16x16.png', type: 'image/png', sizes: '16x16' },
-      { url: '/icon-32x32.png', type: 'image/png', sizes: '32x32' },
-      { url: '/icon-192x192.png', type: 'image/png', sizes: '192x192' },
-      { url: '/icon-512x512.png', type: 'image/png', sizes: '512x512' },
+      { url: '/favicon.ico?v=up1', sizes: '16x16 32x32 48x48' },
+      { url: '/icon-16x16.png?v=up1', type: 'image/png', sizes: '16x16' },
+      { url: '/icon-32x32.png?v=up1', type: 'image/png', sizes: '32x32' },
+      { url: '/icon-192x192.png?v=up1', type: 'image/png', sizes: '192x192' },
+      { url: '/icon-512x512.png?v=up1', type: 'image/png', sizes: '512x512' },
+      { url: '/favicon.svg?v=up1', type: 'image/svg+xml', sizes: 'any' },
     ],
     apple: [
-      { url: '/icon-152x152.png', sizes: '152x152' },
-      { url: '/icon-167x167.png', sizes: '167x167' },
-      { url: '/apple-touch-icon.png', sizes: '180x180' },
+      { url: '/icon-152x152.png?v=up1', sizes: '152x152' },
+      { url: '/icon-167x167.png?v=up1', sizes: '167x167' },
+      { url: '/apple-touch-icon.png?v=up1', sizes: '180x180' },
     ],
   },
-  manifest: '/site.webmanifest',
+  manifest: '/site.webmanifest?v=up1',
 }
 
 export const viewport = {
