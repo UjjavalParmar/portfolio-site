@@ -1,4 +1,6 @@
-import { getAllPosts } from '../../../src/lib/sanity'
+import { getAllPosts } from '../../../src/lib/blog-store.server'
+
+export const revalidate = 60
 
 function escapeXml(unsafe = '') {
   return unsafe
@@ -15,7 +17,7 @@ export async function GET() {
 
   const itemsXml = (posts || [])
     .map((post) => {
-      const link = `${siteUrl}/blog/${post.slug.current}`
+      const link = `${siteUrl}/blog/${post.slug}`
       const title = escapeXml(post.title || '')
       const description = escapeXml(post.metaDescription || '')
       const pubDate = post.publishedAt ? new Date(post.publishedAt).toUTCString() : new Date().toUTCString()
@@ -37,7 +39,7 @@ export async function GET() {
   return new Response(rssXml, {
     headers: {
       'Content-Type': 'application/rss+xml; charset=utf-8',
-      'Cache-Control': 's-maxage=3600, stale-while-revalidate=86400',
+      'Cache-Control': 'public, max-age=0, s-maxage=60',
     },
   })
 }

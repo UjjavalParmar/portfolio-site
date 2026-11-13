@@ -1,17 +1,12 @@
-import { getAllPosts } from '../src/lib/sanity'
+import { getAllPosts } from '../src/lib/blog-store.server'
 import { projects } from '../src/data/site'
+
+export const revalidate = 60
 
 export default async function sitemap() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.devopslife.space'
 
-  // Dynamic blog post pages
-  let posts = []
-  try {
-    posts = await getAllPosts()
-  } catch (error) {
-    // If Sanity is unreachable, still generate sitemap with static pages
-    console.warn('Could not fetch blog posts for sitemap:', error.message)
-  }
+  const posts = await getAllPosts()
 
   const latestPostDate = posts?.[0]?.publishedAt ? new Date(posts[0].publishedAt) : new Date()
 
@@ -31,7 +26,7 @@ export default async function sitemap() {
   ]
 
   const blogPages = (posts || []).map((post) => ({
-    url: `${siteUrl}/blog/${post.slug.current}`,
+    url: `${siteUrl}/blog/${post.slug}`,
     lastModified: new Date(post.publishedAt),
     changeFrequency: 'monthly',
     priority: 0.7,

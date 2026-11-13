@@ -1,10 +1,12 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { getAllPosts, sanityImageUrl } from '../../src/lib/sanity'
+import { getAllPosts } from '../../src/lib/blog-store.server'
+import { safeImageSrc } from '../../src/lib/blog-model'
+import { estimateReadingTime } from '../../src/lib/blog'
 import Nav from '../../src/components/Nav'
 import Footer from '../../src/components/Footer'
 
-export const revalidate = 3600 // ISR: revalidate every hour
+export const revalidate = 60
 
 export const metadata = {
   title: 'Blog',
@@ -29,13 +31,8 @@ function formatDate(dateString) {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
+    timeZone: 'Asia/Kolkata',
   })
-}
-
-function estimateReadingTime(description) {
-  if (!description) return '3 min'
-  const words = description.split(/\s+/).length
-  return `${Math.max(2, Math.ceil(words / 50))} min`
 }
 
 export default async function BlogPage() {
@@ -54,7 +51,7 @@ export default async function BlogPage() {
           blogPost: posts.map((post) => ({
             '@type': 'BlogPosting',
             headline: post.title,
-            url: `${siteUrl}/blog/${post.slug.current}`,
+            url: `${siteUrl}/blog/${post.slug}`,
             datePublished: post.publishedAt,
             author: {
               '@type': 'Person',
@@ -69,7 +66,7 @@ export default async function BlogPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListJsonLd).replace(/</g, '\\u003c') }}
       />
 
       <Nav />
@@ -84,11 +81,10 @@ export default async function BlogPage() {
             className="h2 h2--lg"
             style={{ margin: '0 0 16px', maxWidth: '20ch' }}
           >
-            Thoughts &amp; Insights
+            Engineering notes
           </h1>
           <p className="body-intro" style={{ margin: 0, maxWidth: '54ch' }}>
-            Writing about DevOps, cloud infrastructure, Kubernetes, and lessons
-            learned building production systems at scale.
+            Hands-on notes on Git, Kubernetes, cloud infrastructure, and deployment workflows.
           </p>
 
           {posts?.length > 0 && (
@@ -103,11 +99,11 @@ export default async function BlogPage() {
           {posts?.length > 0 ? (
             <div className="rule-grid grid-2">
               {posts.map((post) => {
-                const imageUrl = sanityImageUrl(post.featuredImage)
+                const imageUrl = safeImageSrc(post.featuredImage?.src)
                 return (
                   <Link
-                    key={post._id}
-                    href={`/blog/${post.slug.current}`}
+                    key={post.slug}
+                    href={`/blog/${post.slug}`}
                     className="work-card"
                     style={{ display: 'flex', flexDirection: 'column' }}
                   >
@@ -125,6 +121,7 @@ export default async function BlogPage() {
                           src={imageUrl}
                           alt={post.featuredImage?.alt || post.title}
                           fill
+                          unoptimized
                           className="object-contain"
                           sizes="(max-width: 760px) 100vw, 50vw"
                         />
@@ -155,7 +152,7 @@ export default async function BlogPage() {
                           className="meta meta--strong"
                           style={{ color: 'var(--accent)', letterSpacing: '.06em' }}
                         >
-                          {estimateReadingTime(post.metaDescription)} read
+                          {estimateReadingTime(post.body)} min read
                         </span>
                       </div>
 
