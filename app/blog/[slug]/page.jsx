@@ -1,10 +1,13 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { getPostBySlug, getAllPostSlugs, sanityImageUrl } from '../../../src/lib/sanity'
-import PortableTextRenderer from '../../../src/components/PortableTextRenderer'
+import { getPostBySlug, getAllPostSlugs } from '../../../src/lib/blog-store.server'
+import { safeImageSrc } from '../../../src/lib/blog-model'
+import { estimateReadingTime } from '../../../src/lib/blog'
+import BlogContent from '../../../src/components/BlogContent'
 import Nav from '../../../src/components/Nav'
 import Footer from '../../../src/components/Footer'
+import ArrowIcon from '../../../src/components/ArrowIcon'
 
 // ISR: revalidate every 60 seconds
 export const revalidate = 60
@@ -25,8 +28,8 @@ export async function generateMetadata({ params }) {
   }
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.devopslife.space'
-  const imageUrl = sanityImageUrl(post.featuredImage)
-  const canonicalUrl = `${siteUrl}/blog/${post.slug.current}`
+  const imageUrl = safeImageSrc(post.featuredImage?.src)
+  const canonicalUrl = `${siteUrl}/blog/${post.slug}`
 
   return {
     title: post.title,
@@ -46,8 +49,8 @@ export async function generateMetadata({ params }) {
         images: [
           {
             url: imageUrl,
-            width: 1200,
-            height: 630,
+            width: post.featuredImage?.width || 1200,
+            height: post.featuredImage?.height || 630,
             alt: post.featuredImage?.alt || post.title,
           },
         ],
@@ -68,17 +71,8 @@ function formatDate(dateString) {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    timeZone: 'Asia/Kolkata',
   })
-}
-
-function estimateReadingTime(blocks) {
-  if (!blocks) return 1
-  const text = blocks
-    .filter((b) => b._type === 'block')
-    .map((b) => b.children?.map((c) => c.text).join('') || '')
-    .join(' ')
-  const words = text.split(/\s+/).length
-  return Math.max(1, Math.ceil(words / 200))
 }
 
 // Page Component
@@ -91,8 +85,8 @@ export default async function BlogPostPage({ params }) {
   }
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.devopslife.space'
-  const imageUrl = sanityImageUrl(post.featuredImage)
-  const readingTime = estimateReadingTime(post.content)
+  const imageUrl = safeImageSrc(post.featuredImage?.src)
+  const readingTime = estimateReadingTime(post.body)
 
   // JSON-LD Structured Data (schema.org BlogPosting)
   const jsonLd = {
@@ -106,11 +100,11 @@ export default async function BlogPostPage({ params }) {
       url: siteUrl,
     },
     datePublished: post.publishedAt,
-    dateModified: post.publishedAt,
-    url: `${siteUrl}/blog/${post.slug.current}`,
+    dateModified: post.updatedAt,
+    url: `${siteUrl}/blog/${post.slug}`,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${siteUrl}/blog/${post.slug.current}`,
+      '@id': `${siteUrl}/blog/${post.slug}`,
     },
     publisher: {
       '@type': 'Person',
@@ -136,14 +130,14 @@ export default async function BlogPostPage({ params }) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
 
       <Nav />
 
       <main id="main">
         <article className="shell section">
-          <div className="article-shell">
+          <div className="article-shell" style={{ marginInline: 'auto' }}>
           <Link href="/blog" className="link-mono">
             ← Back to all posts
           </Link>
@@ -167,9 +161,10 @@ export default async function BlogPostPage({ params }) {
               </ul>
             )}
 
-            <h1 className="h1" style={{ margin: '0 0 28px' }}>
+            <h1 className="h1" style={{ margin: '0 0 28px', fontSize: 'clamp(40px, 5vw, 72px)' }}>
               {post.title}
             </h1>
+            {post.metaDescription && <p className="lead" style={{ marginBottom: '24px' }}>{post.metaDescription}</p>}
 
             <ul
               style={{
@@ -208,6 +203,7 @@ export default async function BlogPostPage({ params }) {
                 src={imageUrl}
                 alt={post.featuredImage?.alt || post.title}
                 fill
+                          unoptimized
                 priority
                 className="object-cover"
                 sizes="(max-width: 800px) 100vw, 760px"
@@ -216,7 +212,7 @@ export default async function BlogPostPage({ params }) {
           )}
 
           <div className="article-body" style={{ marginTop: '40px' }}>
-            {post.content && <PortableTextRenderer value={post.content} />}
+            {post.body && <BlogContent body={post.body} />}
           </div>
 
           <div
@@ -249,6 +245,14 @@ export default async function BlogPostPage({ params }) {
             <Link href="/blog" className="btn btn--primary">
               Read more articles
             </Link>
+            <a
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${siteUrl}/blog/${post.slug}`)}`}
+              className="btn btn--ghost"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Share on LinkedIn <ArrowIcon />
+            </a>
           </div>
           </div>
         </article>

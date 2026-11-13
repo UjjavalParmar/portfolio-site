@@ -245,6 +245,20 @@ section[id] { scroll-margin-top: 16px; }
 .article-body figure { margin: 32px 0; }
 .article-body pre { background: var(--code-bg); border: 1px solid var(--line); max-width: 100%; padding: 18px; overflow-x: auto; overflow-wrap: normal; }
 .article-body code { font-family: var(--font-mono),monospace; }
+.article-body p { margin: 0 0 20px; }
+.article-body h2 { margin: 48px 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--line); color: var(--fg); }
+.article-body h3, .article-body h4 { margin: 32px 0 12px; color: var(--fg); }
+.article-body blockquote { border-left: 2px solid var(--accent); background: var(--panel); padding: 20px 24px; margin: 32px 0; }
+.article-body blockquote p:last-child { margin: 0; }
+.blog-code { margin: 32px 0; min-width: 0; }
+.blog-code pre { margin: 0; }
+.blog-code code { font-size: 13px; line-height: 1.7; color: var(--code-fg); }
+.blog-code-label { background: var(--code-bg); border: 1px solid var(--line); border-bottom: 0; padding: 10px 16px; color: var(--accent); font: 400 11px/1.6 var(--font-mono),monospace; overflow-wrap: anywhere; }
+.blog-image { display: block; margin: 32px 0; }
+.blog-image img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
+.blog-image .caption { display: block; margin-top: 10px; }
+.article-body table { display: block; overflow-x: auto; border-collapse: collapse; margin-bottom: 24px; }
+.article-body th, .article-body td { border: 1px solid var(--line); padding: 10px 14px; text-align: left; }
 @media (min-width: 1440px) { .hero-stage { min-height: 840px; } .hero-art { top: 80px; } .hero-name > span:last-child { margin-top: 125px; } .hero-intro { top: 480px; } }
 @media (max-width: 1100px) {
   [data-nav-links] { gap: 22px; }
