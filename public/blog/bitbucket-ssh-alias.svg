@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-labelledby="title desc">
+  <title id="title">How the Bitbucket OpenSSH alias works</title>
+  <desc id="desc">Git keeps its bitbucket.org remote URL. OpenSSH matches the original hostname in the user's configuration and connects to ssh.bitbucket.org on port 22.</desc>
+  <rect width="720" height="480" fill="#10110e"/>
+  <g fill="none" stroke="#313829"><path d="M0 80h720M0 160h720M0 240h720M0 320h720M0 400h720M80 0v480M160 0v480M240 0v480M320 0v480M400 0v480M480 0v480M560 0v480M640 0v480"/></g>
+  <g font-family="monospace" fill="#eeeee6">
+    <text x="36" y="47" font-size="27" font-weight="700">One alias. Same Git remotes.</text>
+    <rect x="36" y="78" width="648" height="84" fill="#1b2015" stroke="#465137"/>
+    <text x="56" y="106" font-size="17" fill="#b4bfa7">Git keeps the stored remote URL</text>
+    <text x="56" y="139" font-size="22">git@bitbucket.org:workspace/repo.git</text>
+    <rect x="36" y="197" width="648" height="112" fill="#1b2015" stroke="#465137"/>
+    <text x="56" y="225" font-size="17" fill="#b4bfa7">OpenSSH reads ~/.ssh/config</text>
+    <text x="56" y="259" font-size="23">Host bitbucket.org</text>
+    <text x="80" y="288" font-size="23" fill="#c8ff31">HostName ssh.bitbucket.org</text>
+    <rect x="36" y="344" width="648" height="84" fill="#c8ff31"/>
+    <text x="56" y="372" font-size="17" fill="#384719">Actual SSH destination</text>
+    <text x="56" y="406" font-size="27" font-weight="700" fill="#10110e">ssh.bitbucket.org:22</text>
+    <text x="36" y="462" font-size="17" fill="#b4bfa7">The repository path and existing key settings stay put.</text>
+  </g>
+  <g fill="none" stroke="#c8ff31" stroke-width="2"><path d="M360 167v24m-6-6 6 6 6-6M360 314v24m-6-6 6 6 6-6"/></g>
+</svg>
